@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTutor BD — টিউটর</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="main-page">
+  <nav class="navbar">
+    <div class="nav-logo"><a href="home.html">🎓 EduTutor BD</a></div>
+    <div class="nav-user"><span id="subject-title"></span></div>
+  </nav>
+
+  <div class="main-container">
+
+    <!-- ══ STEP 1: Chapter Select ══ -->
+    <div id="chapter-section">
+      <div class="section-header">
+        <h2>📚 অধ্যায় বেছে নাও</h2>
+        <p>একটি অধ্যায় select করলে পরীক্ষার ধরন বেছে নিতে পারবে</p>
+      </div>
+      <div id="chapter-list" class="chapter-grid"></div>
+    </div>
+
+    <!-- ══ STEP 2: Mode Select (CQ / MCQ) ══ -->
+    <div id="mode-section" style="display:none">
+      <button class="back-btn" onclick="goBackToChapters()">← অধ্যায়ে ফিরে যাও</button>
+      <div class="mode-header">
+        <h2>📝 পরীক্ষার ধরন বেছে নাও</h2>
+        <p id="selected-chapter-name" class="mode-chapter-label"></p>
+      </div>
+      <div class="mode-grid">
+        <div class="mode-card" onclick="startCQ()">
+          <div class="mode-icon">✍️</div>
+          <h3>CQ</h3>
+          <p class="mode-subtitle">সৃজনশীল প্রশ্ন</p>
+          <ul class="mode-features">
+            <li>✅ AI-generated প্রশ্ন</li>
+            <li>✅ Bloom's Taxonomy</li>
+            <li>✅ বিস্তারিত ফিডব্যাক</li>
+            <li>✅ ফলো-আপ প্রশ্ন</li>
+          </ul>
+          <span class="mode-badge mode-badge-blue">বিস্তারিত উত্তর</span>
+        </div>
+        <div class="mode-card mode-card-featured" onclick="startMCQ()">
+          <div class="mode-icon">🔘</div>
+          <h3>MCQ</h3>
+          <p class="mode-subtitle">বহুনির্বাচনী প্রশ্ন</p>
+          <ul class="mode-features">
+            <li>✅ ১০টি প্রশ্ন</li>
+            <li>✅ ৪টি option</li>
+            <li>✅ তাৎক্ষণিক result</li>
+            <li>✅ AI ব্যাখ্যা</li>
+          </ul>
+          <span class="mode-badge mode-badge-green">নতুন ✨</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3A: CQ Section ══ -->
+    <div id="question-section" style="display:none">
+      <button class="back-btn" onclick="goBackToMode()">← ফিরে যাও</button>
+      <div class="question-card">
+        <div class="question-meta">
+          <span id="bloom-badge"  class="badge">মনে রাখো</span>
+          <span id="marks-badge"  class="badge badge-green">৫ নম্বর</span>
+        </div>
+        <div id="loading-question" class="loading">
+          <div class="spinner"></div>
+          <p>প্রশ্ন তৈরি হচ্ছে...</p>
+        </div>
+        <p id="question-text" class="question-text" style="display:none"></p>
+        <div id="hints-section" style="display:none">
+          <button class="btn btn-sm btn-outline" onclick="showHint()">💡 হিন্ট দেখো</button>
+          <p id="hint-text" class="hint-text" style="display:none"></p>
+        </div>
+      </div>
+      <div class="answer-section">
+        <label>তোমার উত্তর:</label>
+        <textarea id="answer-input" placeholder="এখানে উত্তর লিখো..." rows="5"></textarea>
+        <button class="btn btn-primary" id="submit-btn" onclick="submitAnswer()">উত্তর জমা দাও</button>
+      </div>
+      <div id="feedback-section" style="display:none" class="feedback-card">
+        <div id="score-display"       class="score-display"></div>
+        <p    id="feedback-text"></p>
+        <p    id="correct-answer"     class="correct-answer"></p>
+        <p    id="encouragement-text" class="encouragement"></p>
+        <div class="feedback-actions">
+          <button class="btn btn-primary" onclick="nextQuestion()">পরবর্তী প্রশ্ন ➡️</button>
+          <button class="btn btn-outline" onclick="getFollowup()">আরও বুঝতে চাই 🔄</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ══ STEP 3B: MCQ Section ══ -->
+    <div id="mcq-section" style="display:none">
+      <button class="back-btn" id="mcq-back-btn" onclick="goBackToMode()">← ফিরে যাও</button>
+
+      <!-- MCQ Loading -->
+      <div id="mcq-loading" class="loading">
+        <div class="spinner"></div>
+        <p>১০টি MCQ তৈরি হচ্ছে... একটু অপেক্ষা করো</p>
+      </div>
+
+      <!-- MCQ Quiz Area -->
+      <div id="mcq-quiz" style="display:none">
+        <div class="mcq-header">
+          <div class="mcq-meta">
+            <span id="mcq-chapter-label" class="badge badge-green"></span>
+            <span class="badge">১০টি প্রশ্ন</span>
+          </div>
+          <div id="mcq-progress-bar-wrap" class="mcq-progress-wrap">
+            <div id="mcq-progress-fill" class="mcq-progress-fill" style="width:0%"></div>
+          </div>
+        </div>
+        <div id="mcq-questions-list"></div>
+        <button class="btn btn-primary mcq-submit-btn" id="mcq-submit-btn" onclick="submitMCQ()">
+          উত্তর জমা দাও ✅
+        </button>
+      </div>
+
+      <!-- MCQ Results -->
+      <div id="mcq-result" style="display:none">
+        <div class="result-summary-card">
+          <div class="result-icon" id="result-icon">🎉</div>
+          <h2 class="result-title" id="result-title">ফলাফল</h2>
+          <div class="result-score-big" id="result-score-big"></div>
+          <div class="result-stats">
+            <div class="result-stat">
+              <span class="result-stat-num" id="res-total">10</span>
+              <span class="result-stat-label">মোট প্রশ্ন</span>
+            </div>
+            <div class="result-stat result-stat-correct">
+              <span class="result-stat-num" id="res-correct">0</span>
+              <span class="result-stat-label">✅ সঠিক</span>
+            </div>
+            <div class="result-stat result-stat-wrong">
+              <span class="result-stat-num" id="res-wrong">0</span>
+              <span class="result-stat-label">❌ ভুল</span>
+            </div>
+          </div>
+        </div>
+
+        <div id="mcq-review-list"></div>
+
+        <div class="result-actions">
+          <button class="btn btn-primary" onclick="retryWrongQuestions()">🔁 ভুলগুলো আবার চেষ্টা করো</button>
+          <button class="btn btn-outline" onclick="startMCQ()">🔀 নতুন MCQ</button>
+          <button class="btn btn-outline" onclick="goBackToMode()">← পিছে যাও</button>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /main-container -->
+
+  <script src="js/api.js"></script>
+  <script src="js/tutor.js"></script>
+  <script src="js/mcq.js"></script>
+</body>
+</html>

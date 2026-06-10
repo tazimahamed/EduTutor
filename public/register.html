@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTutor BD — রেজিস্ট্রেশন</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="logo">🎓</div>
+      <h1>EduTutor BD</h1>
+      <p>নতুন অ্যাকাউন্ট তৈরি করুন</p>
+    </div>
+    <div class="auth-card">
+      <div id="error-msg"   class="alert alert-error"   style="display:none"></div>
+      <div id="success-msg" class="alert alert-success" style="display:none"></div>
+
+      <div class="role-toggle">
+        <button id="role-student" class="role-btn active" onclick="setRole('student')">🎓 শিক্ষার্থী</button>
+        <button id="role-admin"   class="role-btn"        onclick="setRole('admin')">👨‍💼 Admin</button>
+      </div>
+
+      <div class="form-group">
+        <label>নাম</label>
+        <input type="text" id="name" placeholder="আপনার পুরো নাম">
+      </div>
+      <div class="form-group">
+        <label>ইমেইল</label>
+        <input type="email" id="email" placeholder="আপনার ইমেইল">
+      </div>
+      <div class="form-group">
+        <label>পাসওয়ার্ড</label>
+        <input type="password" id="password" placeholder="কমপক্ষে ৬ অক্ষর">
+      </div>
+      <div class="form-group" id="grade-group">
+        <label>শ্রেণি</label>
+        <select id="grade">
+          <option value="SSC">SSC</option>
+          <option value="HSC">HSC</option>
+        </select>
+      </div>
+      <div class="form-group" id="admin-code-group" style="display:none">
+        <label>Admin কোড</label>
+        <input type="password" id="admin-code" placeholder="Admin secret code">
+      </div>
+
+      <button class="btn btn-primary" id="register-btn" onclick="handleRegister()">রেজিস্ট্রেশন করুন</button>
+      <p class="auth-link">আগে থেকে অ্যাকাউন্ট আছে? <a href="index.html">লগইন করুন</a></p>
+    </div>
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/register.js"></script>
+</body>
+</html>

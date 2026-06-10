@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTutor BD — লগইন</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="auth-page">
+  <div class="auth-container">
+    <div class="auth-header">
+      <div class="logo">🎓</div>
+      <h1>EduTutor BD</h1>
+      <p>SSC/HSC AI শিক্ষা সহকারী</p>
+    </div>
+    <div class="auth-card">
+      <div id="error-msg"   class="alert alert-error"   style="display:none"></div>
+      <div id="success-msg" class="alert alert-success" style="display:none"></div>
+      <div class="form-group">
+        <label>ইমেইল</label>
+        <input type="email" id="email" placeholder="আপনার ইমেইল দিন">
+      </div>
+      <div class="form-group">
+        <label>পাসওয়ার্ড</label>
+        <input type="password" id="password" placeholder="পাসওয়ার্ড দিন">
+      </div>
+      <button class="btn btn-primary" id="login-btn" onclick="handleLogin()">লগইন করুন</button>
+      <p class="auth-link">নতুন? <a href="register.html">রেজিস্ট্রেশন করুন</a></p>
+    </div>
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/auth.js"></script>
+</body>
+</html>

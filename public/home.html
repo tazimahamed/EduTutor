@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTutor BD — হোম</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+</head>
+<body class="main-page">
+  <nav class="navbar">
+    <div class="nav-logo">🎓 EduTutor BD</div>
+    <div class="nav-user">
+      <span id="user-name">শিক্ষার্থী</span>
+      <button class="btn btn-sm" onclick="logout()">লগআউট</button>
+    </div>
+  </nav>
+  <div class="main-container">
+    <div class="welcome-section">
+      <h1>স্বাগতম, <span id="user-name-2"></span>! 👋</h1>
+      <p>আজ কোন বিষয়টি পড়তে চাও?</p>
+    </div>
+    <div class="subject-grid">
+      <div class="subject-card" onclick="goToTutor('physics')">
+        <div class="subject-icon">⚛️</div>
+        <h3>পদার্থবিজ্ঞান</h3>
+        <p>Physics</p>
+      </div>
+      <div class="subject-card" onclick="goToTutor('chemistry')">
+        <div class="subject-icon">🧪</div>
+        <h3>রসায়ন</h3>
+        <p>Chemistry</p>
+      </div>
+      <div class="subject-card" onclick="goToTutor('math')">
+        <div class="subject-icon">📐</div>
+        <h3>গণিত</h3>
+        <p>Math</p>
+      </div>
+    </div>
+    <div class="quick-links">
+      <a href="progress.html" class="quick-link"><span>📊</span> আমার অগ্রগতি</a>
+    </div>
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/home.js"></script>
+</body>
+</html>
