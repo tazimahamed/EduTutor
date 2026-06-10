@@ -20,7 +20,7 @@ def get_groq():
         _groq_client = Groq(api_key=os.environ.get("GROQ_API_KEY", ""))
     return _groq_client
 
-GROQ_MODEL = "llama-3.3-70b-versatile"
+GROQ_MODEL = "llama3-70b-8192"
 
 # ── Supabase Client ──────────────────────────────────────────
 from supabase import create_client, Client
