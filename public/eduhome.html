@@ -265,15 +265,83 @@ nav{
 .cta-sub span{color:#9FE1CB;opacity:1;}
 
 /* FOOTER */
-footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
-.footer-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:36px;}
-.footer-logo{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:white;margin-bottom:10px;}
+footer{
+  background:linear-gradient(180deg,#0a1f18 0%,#061410 100%);
+  color:rgba(255,255,255,.7);padding:64px 6% 0;
+  position:relative;overflow:hidden;
+}
+footer::before{
+  content:'';position:absolute;
+  width:500px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(29,158,117,0.12) 0%,transparent 70%);
+  top:-100px;left:-100px;pointer-events:none;
+}
+footer::after{
+  content:'';position:absolute;
+  width:400px;height:300px;border-radius:50%;
+  background:radial-gradient(ellipse,rgba(239,159,39,0.07) 0%,transparent 70%);
+  top:-50px;right:-50px;pointer-events:none;
+}
+.footer-inner{
+  display:grid;grid-template-columns:1.4fr 1fr 1fr;
+  gap:48px;margin-bottom:48px;position:relative;z-index:1;
+}
+.footer-logo{
+  font-family:'Poppins',sans-serif;font-size:24px;font-weight:800;
+  color:white;margin-bottom:12px;
+  display:flex;align-items:center;gap:6px;
+}
 .footer-logo span{color:var(--amber);}
-.footer-desc{font-size:13px;line-height:1.75;max-width:240px;}
-.footer-col h4{font-size:14px;font-weight:700;color:white;margin-bottom:14px;}
-.footer-col a{display:block;color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;margin-bottom:8px;transition:color .2s;}
-.footer-col a:hover{color:var(--green);}
-.footer-copy{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;font-size:12px;opacity:.45;text-align:center;}
+.footer-desc{
+  font-size:13px;line-height:1.85;
+  color:rgba(255,255,255,.5);max-width:240px;margin-bottom:20px;
+}
+.footer-tag{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(29,158,117,0.15);
+  border:1px solid rgba(29,158,117,0.25);
+  color:#9FE1CB;font-size:11px;font-weight:600;
+  padding:5px 14px;border-radius:20px;letter-spacing:.5px;
+}
+.footer-tag::before{content:'●';font-size:8px;color:#1D9E75;}
+.footer-col h4{
+  font-size:12px;font-weight:700;
+  color:rgba(255,255,255,.35);
+  letter-spacing:2px;text-transform:uppercase;
+  margin-bottom:18px;
+}
+.footer-col a{
+  display:flex;align-items:center;gap:8px;
+  color:rgba(255,255,255,.6);text-decoration:none;
+  font-size:14px;margin-bottom:12px;
+  transition:all .2s;padding:6px 0;
+  border-bottom:1px solid rgba(255,255,255,.05);
+}
+.footer-col a::before{
+  content:'→';color:var(--green);
+  font-size:12px;opacity:0;transform:translateX(-6px);
+  transition:all .2s;
+}
+.footer-col a:hover{color:white;padding-left:4px;}
+.footer-col a:hover::before{opacity:1;transform:translateX(0);}
+.footer-bottom{
+  position:relative;z-index:1;
+  border-top:1px solid rgba(255,255,255,.07);
+  padding:24px 0;
+  display:flex;align-items:center;justify-content:space-between;
+  flex-wrap:wrap;gap:12px;
+}
+.footer-copy{font-size:12px;color:rgba(255,255,255,.3);}
+.footer-powered{
+  display:flex;align-items:center;gap:8px;
+}
+.fp-badge{
+  background:rgba(255,255,255,.06);
+  border:1px solid rgba(255,255,255,.1);
+  color:rgba(255,255,255,.5);
+  font-size:11px;font-weight:600;
+  padding:4px 12px;border-radius:6px;
+}
 
 /* SCROLL ANIMATIONS */
 .fade-up{opacity:0;transform:translateY(32px);transition:opacity .75s ease,transform .75s ease;}
@@ -432,37 +500,37 @@ footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
         <div class="quote-accent"></div>
         <p class="quote-text-en">"Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world."</p>
         <p class="quote-text-bn">জ্ঞানের চেয়ে কল্পনাশক্তি বেশি গুরুত্বপূর্ণ। জ্ঞানের সীমা আছে, কল্পনা পুরো পৃথিবীকে ঘিরে ধরে।</p>
-        <div class="quote-author"><div class="author-avatar">🧑‍🔬</div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী · নোবেলজয়ী ১৯২১</div></div></div>
+       <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/120px-Albert_Einstein_Head.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী · নোবেলজয়ী ১৯২১</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
         <p class="quote-text-en">"Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less."</p>
         <p class="quote-text-bn">জীবনে ভয়ের কিছু নেই, শুধু বোঝার আছে। এখন সময় বেশি বোঝার — যাতে কম ভয় পাই।</p>
-        <div class="quote-author"><div class="author-avatar">👩‍🔬</div><div><div class="author-name">Marie Curie</div><div class="author-title">রসায়নবিদ · দুইবার নোবেলজয়ী</div></div></div>
+        <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/7/7e/Marie_Curie_c1920.jpg/120px-Marie_Curie_c1920.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Marie Curie</div><div class="author-title">রসায়নবিদ · দুইবার নোবেলজয়ী</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
         <p class="quote-text-en">"If I have seen further, it is by standing on the shoulders of giants."</p>
         <p class="quote-text-bn">আমি যদি দূরে দেখতে পাই, তা কেবল মহান মানুষদের কাঁধে দাঁড়িয়ে সম্ভব হয়েছে।</p>
-        <div class="quote-author"><div class="author-avatar">🍎</div><div><div class="author-name">Isaac Newton</div><div class="author-title">গণিতবিদ ও পদার্থবিজ্ঞানী</div></div></div>
+        <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/39/GodfreyKneller-IsaacNewton-1689.jpg/120px-GodfreyKneller-IsaacNewton-1689.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Isaac Newton</div><div class="author-title">গণিতবিদ ও পদার্থবিজ্ঞানী</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
         <p class="quote-text-en">"The important thing is not to stop questioning. Curiosity has its own reason for existence."</p>
         <p class="quote-text-bn">গুরুত্বপূর্ণ বিষয় হলো প্রশ্ন করা বন্ধ না করা। কৌতূহলের নিজস্ব কারণ আছে।</p>
-        <div class="quote-author"><div class="author-avatar">💡</div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী</div></div></div>
+        <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/120px-Albert_Einstein_Head.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
         <p class="quote-text-en">"Pure mathematics is, in its way, the poetry of logical ideas."</p>
         <p class="quote-text-bn">বিশুদ্ধ গণিত হলো তার নিজস্ব জগতে যৌক্তিক ধারণার কবিতা।</p>
-        <div class="quote-author"><div class="author-avatar">📊</div><div><div class="author-name">Albert Einstein</div><div class="author-title">গণিত ও পদার্থবিজ্ঞান প্রেমী</div></div></div>
+        <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/d/d3/Albert_Einstein_Head.jpg/120px-Albert_Einstein_Head.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Albert Einstein</div><div class="author-title">গণিত ও পদার্থবিজ্ঞান প্রেমী</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
         <p class="quote-text-en">"Science knows no country, because knowledge belongs to humanity, and is the torch which illuminates the world."</p>
         <p class="quote-text-bn">বিজ্ঞান কোনো দেশ চেনে না — জ্ঞান মানবজাতির সম্পদ, এটাই পৃথিবীকে আলোকিত করে।</p>
-        <div class="quote-author"><div class="author-avatar">🔬</div><div><div class="author-name">Louis Pasteur</div><div class="author-title">অণুজীববিজ্ঞানী · ফ্রান্স</div></div></div>
+        <div class="quote-author"><div class="author-avatar"><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/e0/Louis_Pasteur%2C_foto_av_Félix_Nadar_Crisco_edit.jpg/120px-Louis_Pasteur%2C_foto_av_Félix_Nadar_Crisco_edit.jpg" style="width:100%;height:100%;object-fit:cover;border-radius:50%;"></div><div><div class="author-name">Louis Pasteur</div><div class="author-title">অণুজীববিজ্ঞানী · ফ্রান্স</div></div></div>
       </div>
       <div class="quote-card">
         <div class="quote-accent"></div>
@@ -482,7 +550,7 @@ footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
     <h2 class="fade-up">আজই শুরু করো —<br>সম্পূর্ণ বিনামূল্যে!</h2>
     <p class="fade-up">হাজারো শিক্ষার্থীর সাথে যোগ দাও, AI টিউটরের সাহায্যে পরীক্ষায় ভালো ফল করো</p>
     <a href="register.html" class="cta-btn fade-up">এখনই রেজিস্ট্রেশন করো →</a>
-    <p class="cta-sub fade-up">Powered by <span>Groq AI</span> · <span>Supabase</span> · <span>Vercel</span></p>
+    <p class="cta-sub fade-up">Powered by <span>AI-Powered Learning Aligned with the NCTB Curriculum</span></p>
   </div>
 </div>
 <!-- FOOTER -->
@@ -490,7 +558,8 @@ footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
   <div class="footer-inner">
     <div>
       <div class="footer-logo">🎓 Edu<span>Tutor</span> BD</div>
-      <p class="footer-desc">বাংলাদেশের শিক্ষার্থীদের জন্য তৈরি, বাংলায় পরিচালিত AI শিক্ষা প্ল্যাটফর্ম।</p>
+      <p class="footer-desc">বাংলাদেশের SSC ও HSC শিক্ষার্থীদের জন্য তৈরি, বাংলায় পরিচালিত AI শিক্ষা প্ল্যাটফর্ম।</p>
+      <div class="footer-tag">সম্পূর্ণ বিনামূল্যে</div>
     </div>
     <div class="footer-col">
       <h4>লিংক</h4>
@@ -505,7 +574,14 @@ footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
       <a href="register.html">গণিত</a>
     </div>
   </div>
-  <div class="footer-copy">© ২০২৫ EduTutor BD — সকল অধিকার সংরক্ষিত | Powered by Groq AI + Supabase + Vercel</div>
+  <div class="footer-bottom">
+    <div class="footer-copy">© ২০২৫ EduTutor BD — সকল অধিকার সংরক্ষিত</div>
+    <div class="footer-powered">
+      <span class="fp-badge">Groq AI</span>
+      <span class="fp-badge">Supabase</span>
+      <span class="fp-badge">Vercel</span>
+    </div>
+  </div>
 </footer>
 
 <script>
@@ -549,7 +625,7 @@ function moveQuote(dir){
 }
 
 // Auto-scroll quotes every 8 seconds
-setInterval(()=>moveQuote(1),8000);
+// auto scroll off
 goQuote(0);
 
 // SCROLL ANIMATIONS
