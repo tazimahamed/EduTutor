@@ -397,7 +397,7 @@ NCTB প্রসঙ্গ: {ctx}
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"MCQ error: {{str(e)}}")
+        raise HTTPException(status_code=500, detail=f"MCQ error: {str(e)}")
 
 # ── Mangum Handler for Vercel ────────────────────────────────
 handler = Mangum(app, lifespan="off")
