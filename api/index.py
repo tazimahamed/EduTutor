@@ -397,7 +397,7 @@ NCTB প্রসঙ্গ: {ctx}
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"MCQ error: {{str(e)}}")
+        raise HTTPException(status_code=500, detail=f"MCQ error: {str(e)}")
 
 
 # ── LEADERBOARD ROUTE ─────────────────────────────────────────
@@ -480,6 +480,75 @@ async def get_weekly(student_id: str):
         return {"success": True, "weekly": result}
     except Exception as e:
         raise HTTPException(status_code=500, detail=str(e))
+
+
+# ── BADGES ROUTE ──────────────────────────────────────────────
+@app.get("/api/badges/{student_id}")
+async def get_badges(student_id: str):
+    try:
+        from datetime import datetime, timedelta, timezone
+        supa = get_supa()
+        res  = supa.table("sessions").select("*").eq("student_id", student_id).execute()
+        rows = res.data or []
+
+        total    = len(rows)
+        avg      = round(sum(r.get("percentage",0) for r in rows)/total) if total else 0
+        subjects = set(r.get("subject","") for r in rows)
+
+        # Streak calculation
+        dates = set()
+        for r in rows:
+            try: dates.add(r["created_at"][:10])
+            except: pass
+        today  = datetime.now(timezone.utc).date()
+        streak = 0
+        check  = today
+        while str(check) in dates:
+            streak += 1
+            check  -= timedelta(days=1)
+
+        all_badges = [
+            {"id":"first_session",  "name":"প্রথম পদক্ষেপ",    "icon":"🌱", "desc":"প্রথম সেশন সম্পন্ন",         "earned": total >= 1},
+            {"id":"five_sessions",  "name":"পাঁচ সেশন",         "icon":"⭐", "desc":"৫টি সেশন সম্পন্ন",          "earned": total >= 5},
+            {"id":"ten_sessions",   "name":"দশ সেশন",           "icon":"🌟", "desc":"১০টি সেশন সম্পন্ন",         "earned": total >= 10},
+            {"id":"fifty_sessions", "name":"অভিজ্ঞ শিক্ষার্থী", "icon":"💎", "desc":"৫০টি সেশন সম্পন্ন",        "earned": total >= 50},
+            {"id":"streak_3",       "name":"৩ দিনের Streak",    "icon":"🔥", "desc":"টানা ৩ দিন পড়েছো",        "earned": streak >= 3},
+            {"id":"streak_7",       "name":"সপ্তাহ Streak",     "icon":"🔥🔥","desc":"টানা ৭ দিন পড়েছো",       "earned": streak >= 7},
+            {"id":"streak_30",      "name":"মাস Streak",        "icon":"🏅", "desc":"টানা ৩০ দিন পড়েছো",       "earned": streak >= 30},
+            {"id":"physics_start",  "name":"পদার্থ শিক্ষার্থী", "icon":"⚛️", "desc":"পদার্থবিজ্ঞান শুরু করেছো", "earned": "physics" in subjects},
+            {"id":"chemistry_start","name":"রসায়ন শিক্ষার্থী",  "icon":"🧪", "desc":"রসায়ন শুরু করেছো",        "earned": "chemistry" in subjects},
+            {"id":"math_start",     "name":"গণিত শিক্ষার্থী",   "icon":"📐", "desc":"গণিত শুরু করেছো",          "earned": "math" in subjects},
+            {"id":"all_subjects",   "name":"সব বিষয়",           "icon":"🎓", "desc":"তিনটি বিষয়ে পড়েছো",      "earned": len(subjects) >= 3},
+            {"id":"score_70",       "name":"ভালো স্কোর",        "icon":"✅", "desc":"গড় স্কোর ৭০%+",           "earned": avg >= 70},
+            {"id":"score_90",       "name":"মেধাবী",             "icon":"🏆", "desc":"গড় স্কোর ৯০%+",           "earned": avg >= 90},
+            {"id":"perfectionist",  "name":"পারফেক্ট",           "icon":"💯", "desc":"কোনো সেশনে ১০০% স্কোর",   "earned": any(r.get("percentage",0)==100 for r in rows)},
+        ]
+        earned = [b for b in all_badges if b["earned"]]
+        locked = [b for b in all_badges if not b["earned"]]
+        return {"success":True,"earned":earned,"locked":locked,"total_earned":len(earned),"total":len(all_badges)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ── AI CHAT ROUTE ─────────────────────────────────────────────
+class ChatRequest(BaseModel):
+    message: str
+    subject: Optional[str] = "general"
+    grade: Optional[str] = "SSC"
+
+@app.post("/api/chat")
+async def ai_chat(req: ChatRequest):
+    try:
+        ctx = _get_nctb_context(req.subject or "physics", "")
+        prompt = f"""বিষয়: {req.subject}, শ্রেণি: {req.grade}
+NCTB প্রসঙ্গ: {ctx}
+
+শিক্ষার্থীর প্রশ্ন: {req.message}
+
+বাংলায় সহজ ও বিস্তারিত উত্তর দাও। উৎসাহমূলক কথা বলো।"""
+        text = _generate(prompt)
+        return {"success": True, "reply": text}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=f"Chat error: {str(e)}")
 
 # ── Mangum Handler for Vercel ────────────────────────────────
 handler = Mangum(app, lifespan="off")

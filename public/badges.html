@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>EduTutor BD — আমার Badge</title>
+  <link rel="stylesheet" href="css/style.css">
+  <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body.main-page{background:linear-gradient(135deg,#f0fdf8 0%,#fdf6e8 100%);min-height:100vh;}
+    .badge-hero{
+      background:linear-gradient(135deg,#1a0533 0%,#4a1a8a 50%,#7F77DD 100%);
+      border-radius:20px;padding:36px 24px;text-align:center;
+      color:white;margin-bottom:20px;position:relative;overflow:hidden;
+    }
+    .badge-hero::before{
+      content:'';position:absolute;inset:0;
+      background:radial-gradient(ellipse 70% 60% at 30% 50%,rgba(239,159,39,0.2) 0%,transparent 65%),
+                 radial-gradient(ellipse 50% 50% at 80% 30%,rgba(127,119,221,0.3) 0%,transparent 65%);
+    }
+    .badge-hero-inner{position:relative;z-index:2;}
+    .badge-hero h2{font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
+    .badge-hero p{font-size:13px;opacity:.8;}
+    .badge-progress-wrap{
+      background:rgba(255,255,255,.15);border-radius:20px;
+      height:10px;margin:16px auto 6px;max-width:280px;overflow:hidden;
+    }
+    .badge-progress-fill{
+      height:100%;border-radius:20px;
+      background:linear-gradient(90deg,#FFD700,#EF9F27);
+      transition:width .8s ease;
+    }
+    .badge-progress-text{font-size:13px;opacity:.85;}
+
+    .badge-section-title{
+      font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;
+      color:#0d1f1a;margin:24px 0 14px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .badge-count{
+      background:#1D9E75;color:white;
+      font-size:11px;font-weight:700;
+      padding:2px 10px;border-radius:10px;
+    }
+    .badges-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(150px,1fr));gap:12px;}
+    .badge-card{
+      background:white;border-radius:16px;padding:20px 14px;
+      text-align:center;border:1.5px solid rgba(29,158,117,0.12);
+      transition:all .25s;position:relative;overflow:hidden;
+    }
+    .badge-card.earned{
+      background:linear-gradient(135deg,#fffbea,#fff8e1);
+      border-color:rgba(239,159,39,0.4);
+      box-shadow:0 4px 16px rgba(239,159,39,0.15);
+    }
+    .badge-card.earned:hover{transform:translateY(-4px);box-shadow:0 8px 24px rgba(239,159,39,0.25);}
+    .badge-card.locked{opacity:.5;filter:grayscale(.6);}
+    .badge-card.locked:hover{transform:none;}
+    .badge-glow{
+      position:absolute;top:-20px;right:-20px;
+      width:60px;height:60px;border-radius:50%;
+      background:radial-gradient(circle,rgba(239,159,39,0.3),transparent);
+      pointer-events:none;
+    }
+    .badge-icon{font-size:36px;margin-bottom:10px;display:block;}
+    .badge-name{font-family:'Poppins',sans-serif;font-size:13px;font-weight:700;color:#0d1f1a;margin-bottom:4px;}
+    .badge-desc{font-size:11px;color:#888;line-height:1.5;}
+    .earned-stamp{
+      position:absolute;top:8px;right:8px;
+      background:#1D9E75;color:white;
+      font-size:10px;font-weight:700;
+      padding:2px 8px;border-radius:8px;
+    }
+    .locked-icon{
+      position:absolute;top:8px;right:8px;
+      font-size:14px;opacity:.4;
+    }
+  </style>
+</head>
+<body class="main-page">
+  <nav class="navbar">
+    <div class="nav-logo"><a href="home.html" style="text-decoration:none;color:inherit;">🎓 EduTutor BD</a></div>
+    <div class="nav-user"><button class="btn btn-sm" onclick="logout()">লগআউট</button></div>
+  </nav>
+  <div class="main-container">
+    <div class="badge-hero">
+      <div class="badge-hero-inner">
+        <h2>🎖️ আমার Badge Collection</h2>
+        <p>পড়ো, অর্জন করো, এগিয়ে যাও!</p>
+        <div class="badge-progress-wrap">
+          <div class="badge-progress-fill" id="badge-prog-fill" style="width:0%"></div>
+        </div>
+        <div class="badge-progress-text" id="badge-prog-text">লোড হচ্ছে...</div>
+      </div>
+    </div>
+
+    <div id="loading-badges" class="loading"><div class="spinner"></div><p>লোড হচ্ছে...</p></div>
+    <div id="badges-content" style="display:none">
+      <div class="badge-section-title">✅ অর্জিত Badge <span class="badge-count" id="earned-count">০</span></div>
+      <div class="badges-grid" id="earned-grid"></div>
+      <div class="badge-section-title">🔒 এখনো পাওনি <span class="badge-count" id="locked-count" style="background:#aaa;">০</span></div>
+      <div class="badges-grid" id="locked-grid"></div>
+    </div>
+  </div>
+  <script src="js/api.js"></script>
+  <script src="js/badges.js"></script>
+</body>
+</html>
