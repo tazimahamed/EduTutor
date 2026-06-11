@@ -59,7 +59,7 @@ def _generate(prompt: str) -> str:
                     {"role": "system", "content": SYSTEM_PERSONA},
                     {"role": "user",   "content": prompt}
                 ],
-                max_tokens=1000,
+                max_tokens=4800,
                 temperature=0.3,
             )
             return res.choices[0].message.content.strip()
