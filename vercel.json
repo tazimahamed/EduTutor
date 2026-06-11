@@ -9,6 +9,8 @@
     { "src": "/", "dest": "/public/index.html" },
     { "src": "/register.html", "dest": "/public/register.html" },
     { "src": "/leaderboard.html", "dest": "/public/leaderboard.html" },
+{ "src": "/badges.html", "dest": "/public/badges.html" },
+{ "src": "/chat.html", "dest": "/public/chat.html" },
     { "src": "/home.html", "dest": "/public/home.html" },
     { "src": "/tutor.html", "dest": "/public/tutor.html" },
     { "src": "/progress.html", "dest": "/public/progress.html" },
