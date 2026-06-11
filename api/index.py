@@ -392,7 +392,7 @@ NCTB প্রসঙ্গ: {ctx}
                     "explanation":    q.get("explanation", "")
                 })
         if not clean:
-            raise HTTPException(status_code=500, detail="MCQ তৈরি করতে পারিনি, আবার চেষ্টা করো।")
+            raise HTTPException(status_code=500, detail=f"MCQ parse failed. Raw: {text[:500]}")
         return {"success": True, "questions": clean, "count": len(clean)}
     except HTTPException:
         raise
