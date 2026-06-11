@@ -1,0 +1,742 @@
+<!DOCTYPE html>
+<html lang="bn">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>EduTutor BD — Home</title>
+<link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+  :root {
+    --green: #1D9E75;
+    --green-dark: #0F6E56;
+    --green-light: #E1F5EE;
+    --blue: #378ADD;
+    --blue-light: #E6F1FB;
+    --amber: #EF9F27;
+    --text: #1a1a2e;
+    --text-muted: #5a6070;
+    --bg: #f8fffe;
+    --white: #ffffff;
+    --card-bg: #ffffff;
+    --border: rgba(29,158,117,0.15);
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'Hind Siliguri', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    overflow-x: hidden;
+  }
+
+  /* NAVBAR */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0;
+    background: rgba(255,255,255,0.95);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    padding: 0 5%;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 64px;
+    z-index: 100;
+  }
+  .nav-logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px; font-weight: 800;
+    color: var(--green-dark);
+    display: flex; align-items: center; gap: 8px;
+  }
+  .nav-logo span { color: var(--amber); }
+  .nav-btns { display: flex; gap: 12px; }
+  .btn-outline {
+    padding: 8px 20px;
+    border: 2px solid var(--green);
+    border-radius: 8px;
+    background: transparent;
+    color: var(--green-dark);
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-outline:hover { background: var(--green-light); }
+  .btn-solid {
+    padding: 8px 20px;
+    border: none;
+    border-radius: 8px;
+    background: var(--green);
+    color: white;
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 15px; font-weight: 600;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+  .btn-solid:hover { background: var(--green-dark); }
+
+  /* HERO SLIDER */
+  .hero {
+    margin-top: 64px;
+    position: relative;
+    height: 480px;
+    overflow: hidden;
+  }
+  .slide {
+    position: absolute; inset: 0;
+    opacity: 0;
+    transition: opacity 1s ease;
+    display: flex; align-items: center; justify-content: center;
+  }
+  .slide.active { opacity: 1; }
+  .slide-bg {
+    position: absolute; inset: 0;
+    background-size: cover;
+    background-position: center;
+    filter: brightness(0.55);
+  }
+  .slide-content {
+    position: relative; z-index: 2;
+    text-align: center;
+    color: white;
+    padding: 0 20px;
+    max-width: 700px;
+  }
+  .slide-tag {
+    display: inline-block;
+    background: rgba(29,158,117,0.85);
+    color: white;
+    font-size: 13px; font-weight: 600;
+    padding: 4px 14px;
+    border-radius: 20px;
+    margin-bottom: 16px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+  }
+  .slide-content h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 38px; font-weight: 800;
+    line-height: 1.2;
+    margin-bottom: 12px;
+    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
+  }
+  .slide-content p {
+    font-size: 16px;
+    opacity: 0.9;
+    line-height: 1.6;
+  }
+  .slide-dots {
+    position: absolute; bottom: 20px; left: 50%;
+    transform: translateX(-50%);
+    display: flex; gap: 8px; z-index: 5;
+  }
+  .dot {
+    width: 8px; height: 8px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.5);
+    cursor: pointer;
+    transition: all 0.3s;
+  }
+  .dot.active {
+    background: white;
+    width: 24px;
+    border-radius: 4px;
+  }
+
+  /* SECTION */
+  section { padding: 80px 5%; }
+
+  /* SUMMARY */
+  .summary-section {
+    background: white;
+    padding: 80px 5%;
+  }
+  .section-label {
+    font-size: 13px; font-weight: 700;
+    color: var(--green);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+  }
+  .section-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 34px; font-weight: 800;
+    color: var(--text);
+    margin-bottom: 16px;
+    line-height: 1.25;
+  }
+  .section-title span { color: var(--green); }
+  .section-sub {
+    font-size: 17px;
+    color: var(--text-muted);
+    max-width: 600px;
+    line-height: 1.7;
+    margin-bottom: 48px;
+  }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+  .feature-card {
+    background: var(--bg);
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 28px 24px;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  .feature-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 32px rgba(29,158,117,0.12);
+  }
+  .feature-icon {
+    width: 52px; height: 52px;
+    border-radius: 12px;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 26px;
+    margin-bottom: 16px;
+  }
+  .feature-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 17px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* STATS */
+  .stats-section {
+    background: linear-gradient(135deg, #085041 0%, #0F6E56 50%, #1D9E75 100%);
+    padding: 64px 5%;
+  }
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 32px;
+    text-align: center;
+  }
+  .stat-item { color: white; }
+  .stat-number {
+    font-family: 'Poppins', sans-serif;
+    font-size: 48px; font-weight: 800;
+    color: #9FE1CB;
+    line-height: 1;
+    margin-bottom: 8px;
+  }
+  .stat-label {
+    font-size: 15px;
+    opacity: 0.85;
+  }
+
+  /* SUBJECTS */
+  .subjects-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+  }
+  .subject-card {
+    border-radius: 16px;
+    padding: 32px 24px;
+    text-align: center;
+    cursor: pointer;
+    transition: transform 0.2s;
+  }
+  .subject-card:hover { transform: translateY(-4px); }
+  .subject-card.physics { background: #E6F1FB; }
+  .subject-card.chemistry { background: #FAEEDA; }
+  .subject-card.math { background: #E1F5EE; }
+  .subject-emoji { font-size: 40px; margin-bottom: 12px; }
+  .subject-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 18px; font-weight: 700;
+    margin-bottom: 6px;
+  }
+  .subject-card.physics h3 { color: #185FA5; }
+  .subject-card.chemistry h3 { color: #854F0B; }
+  .subject-card.math h3 { color: #085041; }
+  .subject-card p { font-size: 13px; color: var(--text-muted); }
+
+  /* SCIENTISTS / QUOTES */
+  .quotes-section {
+    background: #f8fffe;
+    padding: 80px 5%;
+  }
+  .quotes-title {
+    font-family: 'Poppins', sans-serif;
+    font-size: 30px; font-weight: 800;
+    color: var(--text);
+    margin-bottom: 40px;
+    text-align: center;
+  }
+  .quotes-title span { color: var(--green); }
+  .quotes-scroll {
+    display: flex;
+    gap: 20px;
+    overflow-x: auto;
+    padding-bottom: 12px;
+    scrollbar-width: none;
+  }
+  .quotes-scroll::-webkit-scrollbar { display: none; }
+  .quote-card {
+    min-width: 280px;
+    background: white;
+    border: 1.5px solid var(--border);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+  }
+  .quote-mark {
+    font-size: 48px;
+    color: var(--green-light);
+    font-family: Georgia, serif;
+    line-height: 0.8;
+    margin-bottom: 8px;
+  }
+  .quote-text {
+    font-size: 14px;
+    color: var(--text);
+    line-height: 1.7;
+    margin-bottom: 16px;
+    font-style: italic;
+  }
+  .quote-text-bn {
+    font-size: 13px;
+    color: var(--text-muted);
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .quote-author {
+    display: flex; align-items: center; gap: 10px;
+  }
+  .author-avatar {
+    width: 40px; height: 40px;
+    border-radius: 50%;
+    background: var(--green-light);
+    display: flex; align-items: center; justify-content: center;
+    font-size: 18px;
+  }
+  .author-name {
+    font-size: 14px; font-weight: 700;
+    color: var(--text);
+  }
+  .author-title {
+    font-size: 12px;
+    color: var(--text-muted);
+  }
+
+  /* HOW IT WORKS */
+  .steps-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 24px;
+    position: relative;
+  }
+  .step-card {
+    text-align: center;
+    padding: 32px 20px;
+  }
+  .step-num {
+    width: 56px; height: 56px;
+    border-radius: 50%;
+    background: var(--green);
+    color: white;
+    font-family: 'Poppins', sans-serif;
+    font-size: 22px; font-weight: 800;
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 16px;
+  }
+  .step-card h3 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 16px; font-weight: 700;
+    color: var(--text);
+    margin-bottom: 8px;
+  }
+  .step-card p {
+    font-size: 14px;
+    color: var(--text-muted);
+    line-height: 1.6;
+  }
+
+  /* CTA */
+  .cta-section {
+    background: linear-gradient(135deg, #1D9E75, #085041);
+    padding: 80px 5%;
+    text-align: center;
+    color: white;
+  }
+  .cta-section h2 {
+    font-family: 'Poppins', sans-serif;
+    font-size: 36px; font-weight: 800;
+    margin-bottom: 16px;
+  }
+  .cta-section p {
+    font-size: 18px;
+    opacity: 0.9;
+    margin-bottom: 36px;
+  }
+  .cta-btn {
+    display: inline-block;
+    background: white;
+    color: var(--green-dark);
+    font-family: 'Hind Siliguri', sans-serif;
+    font-size: 18px; font-weight: 700;
+    padding: 14px 40px;
+    border-radius: 50px;
+    text-decoration: none;
+    transition: all 0.2s;
+    border: none; cursor: pointer;
+  }
+  .cta-btn:hover {
+    background: var(--green-light);
+    transform: scale(1.04);
+  }
+
+  /* FOOTER */
+  footer {
+    background: #0a1628;
+    color: rgba(255,255,255,0.7);
+    padding: 48px 5% 32px;
+    text-align: center;
+  }
+  footer .logo {
+    font-family: 'Poppins', sans-serif;
+    font-size: 24px; font-weight: 800;
+    color: white;
+    margin-bottom: 12px;
+  }
+  footer .logo span { color: var(--amber); }
+  footer p { font-size: 14px; line-height: 1.8; }
+  footer .footer-links {
+    display: flex; justify-content: center; gap: 24px;
+    margin: 20px 0;
+    flex-wrap: wrap;
+  }
+  footer .footer-links a {
+    color: rgba(255,255,255,0.6);
+    text-decoration: none;
+    font-size: 14px;
+    transition: color 0.2s;
+  }
+  footer .footer-links a:hover { color: var(--green); }
+  .footer-copy {
+    margin-top: 24px;
+    font-size: 13px;
+    opacity: 0.5;
+    border-top: 1px solid rgba(255,255,255,0.1);
+    padding-top: 20px;
+  }
+
+  /* ANIMATIONS */
+  .fade-in {
+    opacity: 0;
+    transform: translateY(24px);
+    transition: opacity 0.7s ease, transform 0.7s ease;
+  }
+  .fade-in.visible {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  @media (max-width: 600px) {
+    .slide-content h2 { font-size: 24px; }
+    .section-title { font-size: 24px; }
+    .stat-number { font-size: 36px; }
+    .hero { height: 360px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav>
+  <div class="nav-logo">🎓 Edu<span>Tutor</span> BD</div>
+  <div class="nav-btns">
+    <a href="index.html" class="btn-outline">লগইন</a>
+    <a href="register.html" class="btn-solid">শুরু করো</a>
+  </div>
+</nav>
+
+<!-- HERO SLIDER -->
+<div class="hero">
+  <div class="slide active" id="slide-0">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">পদার্থবিজ্ঞান</div>
+      <h2>বিজ্ঞানের রহস্য উন্মোচন করো</h2>
+      <p>নিউটনের গতিসূত্র থেকে কোয়ান্টাম পদার্থবিজ্ঞান — AI-এর সাহায্যে সহজে শেখো</p>
+    </div>
+  </div>
+  <div class="slide" id="slide-1">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">রসায়ন</div>
+      <h2>রসায়নের জগতে স্বাগতম</h2>
+      <p>পর্যায় সারণি থেকে জৈব রসায়ন — বাংলায় শেখো, বুঝে শেখো</p>
+    </div>
+  </div>
+  <div class="slide" id="slide-2">
+    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80')"></div>
+    <div class="slide-content">
+      <div class="slide-tag">গণিত</div>
+      <h2>গণিতকে ভয় নয়, ভালোবাসো</h2>
+      <p>বীজগণিত, জ্যামিতি, ক্যালকুলাস — AI টিউটর তোমার পাশে সবসময়</p>
+    </div>
+  </div>
+  <div class="slide-dots">
+    <div class="dot active" onclick="goSlide(0)"></div>
+    <div class="dot" onclick="goSlide(1)"></div>
+    <div class="dot" onclick="goSlide(2)"></div>
+  </div>
+</div>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat-item fade-in">
+      <div class="stat-number">৩টি</div>
+      <div class="stat-label">বিষয় (পদার্থ, রসায়ন, গণিত)</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number">SSC/HSC</div>
+      <div class="stat-label">NCTB পাঠ্যক্রম অনুসরণ</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number">২৪/৭</div>
+      <div class="stat-label">AI টিউটর সবসময় প্রস্তুত</div>
+    </div>
+    <div class="stat-item fade-in">
+      <div class="stat-number">বাংলা</div>
+      <div class="stat-label">মাতৃভাষায় সম্পূর্ণ শিক্ষা</div>
+    </div>
+  </div>
+</div>
+
+<!-- PROJECT SUMMARY -->
+<div class="summary-section">
+  <div class="fade-in">
+    <div class="section-label">আমাদের সম্পর্কে</div>
+    <h2 class="section-title">EduTutor BD — <span>বাংলাদেশের প্রথম</span><br>AI-চালিত বাংলা টিউটর</h2>
+    <p class="section-sub">EduTutor BD হলো বাংলাদেশের SSC ও HSC শিক্ষার্থীদের জন্য তৈরি একটি বিশেষ AI শিক্ষা প্ল্যাটফর্ম। Bloom's Taxonomy অনুসরণ করে প্রতিটি শিক্ষার্থীর জন্য ব্যক্তিগতকৃত প্রশ্ন তৈরি করে, উত্তর মূল্যায়ন করে এবং বাংলায় বিস্তারিত ফিডব্যাক দেয়।</p>
+  </div>
+  <div class="features-grid">
+    <div class="feature-card fade-in">
+      <div class="feature-icon">🤖</div>
+      <h3>AI-চালিত প্রশ্ন</h3>
+      <p>Groq LLaMA মডেল ব্যবহার করে প্রতিটি শিক্ষার্থীর স্তর অনুযায়ী নতুন প্রশ্ন তৈরি হয়</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">📊</div>
+      <h3>Bloom's Taxonomy</h3>
+      <p>মনে রাখা থেকে সৃষ্টি — ৬টি স্তরে শিক্ষার্থীর বিকাশ ট্র্যাক করা হয়</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">🇧🇩</div>
+      <h3>সম্পূর্ণ বাংলায়</h3>
+      <p>NCTB পাঠ্যক্রম অনুসরণ করে পুরো অভিজ্ঞতা বাংলায় — শিক্ষার্থী আরামদায়ক বোধ করে</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">📝</div>
+      <h3>MCQ + CQ উভয়ই</h3>
+      <p>বহুনির্বাচনী ও সৃজনশীল প্রশ্ন — পরীক্ষার প্রস্তুতির জন্য সম্পূর্ণ সমাধান</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">📈</div>
+      <h3>অগ্রগতি ট্র্যাকিং</h3>
+      <p>প্রতিটি সেশনের ফলাফল সংরক্ষিত থাকে, দুর্বল দিক চিহ্নিত করে উন্নতির পথ দেখায়</p>
+    </div>
+    <div class="feature-card fade-in">
+      <div class="feature-icon">👨‍💼</div>
+      <h3>Admin Dashboard</h3>
+      <p>শিক্ষকরা সকল শিক্ষার্থীর পারফরম্যান্স একসাথে দেখতে এবং পরিচালনা করতে পারবেন</p>
+    </div>
+  </div>
+</div>
+
+<!-- SUBJECTS -->
+<section style="background: var(--bg);">
+  <div class="fade-in" style="text-align:center; margin-bottom: 40px;">
+    <div class="section-label">বিষয়সমূহ</div>
+    <h2 class="section-title" style="text-align:center;">কোন বিষয়ে <span>পড়তে চাও?</span></h2>
+  </div>
+  <div class="subjects-grid fade-in">
+    <div class="subject-card physics">
+      <div class="subject-emoji">⚛️</div>
+      <h3>পদার্থবিজ্ঞান</h3>
+      <p>নিউটনের সূত্র, তরঙ্গ, তড়িৎ, আলো ও আধুনিক পদার্থবিজ্ঞান</p>
+    </div>
+    <div class="subject-card chemistry">
+      <div class="subject-emoji">🧪</div>
+      <h3>রসায়ন</h3>
+      <p>পর্যায় সারণি, রাসায়নিক বন্ধন, এসিড-ক্ষারক, জৈব রসায়ন</p>
+    </div>
+    <div class="subject-card math">
+      <div class="subject-emoji">📐</div>
+      <h3>গণিত</h3>
+      <p>বীজগণিত, ত্রিকোণমিতি, জ্যামিতি, ক্যালকুলাস ও পরিসংখ্যান</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section style="background: white;">
+  <div class="fade-in" style="text-align:center; margin-bottom: 40px;">
+    <div class="section-label">কীভাবে কাজ করে</div>
+    <h2 class="section-title" style="text-align:center;">মাত্র <span>৪টি ধাপে</span> শেখা শুরু</h2>
+  </div>
+  <div class="steps-grid fade-in">
+    <div class="step-card">
+      <div class="step-num">১</div>
+      <h3>অ্যাকাউন্ট তৈরি করো</h3>
+      <p>বিনামূল্যে রেজিস্ট্রেশন করো, শ্রেণি ও বিষয় নির্বাচন করো</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">২</div>
+      <h3>বিষয় বেছে নাও</h3>
+      <p>পদার্থ, রসায়ন বা গণিত — যেকোনো অধ্যায় থেকে শুরু করো</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">৩</div>
+      <h3>AI প্রশ্ন করবে</h3>
+      <p>তোমার স্তর অনুযায়ী AI বাংলায় প্রশ্ন তৈরি করবে</p>
+    </div>
+    <div class="step-card">
+      <div class="step-num">৪</div>
+      <h3>ফিডব্যাক পাও</h3>
+      <p>উত্তর দাও, তাৎক্ষণিক মূল্যায়ন ও বিস্তারিত ব্যাখ্যা পাও</p>
+    </div>
+  </div>
+</section>
+
+<!-- SCIENTIST QUOTES -->
+<div class="quotes-section">
+  <h2 class="quotes-title fade-in">মহান বিজ্ঞানীদের <span>অনুপ্রেরণা</span></h2>
+  <div class="quotes-scroll fade-in">
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">Imagination is more important than knowledge.</p>
+      <p class="quote-text-bn">জ্ঞানের চেয়ে কল্পনাশক্তি বেশি গুরুত্বপূর্ণ।</p>
+      <div class="quote-author">
+        <div class="author-avatar">🧑‍🔬</div>
+        <div>
+          <div class="author-name">Albert Einstein</div>
+          <div class="author-title">পদার্থবিজ্ঞানী, নোবেলজয়ী</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">Science is not only a disciple of reason but also obedience to the imagination.</p>
+      <p class="quote-text-bn">বিজ্ঞান শুধু যুক্তির নয়, কল্পনারও অনুগামী।</p>
+      <div class="quote-author">
+        <div class="author-avatar">👩‍🔬</div>
+        <div>
+          <div class="author-name">Marie Curie</div>
+          <div class="author-title">রসায়নবিদ, দুইবার নোবেলজয়ী</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">If I have seen further, it is by standing on the shoulders of giants.</p>
+      <p class="quote-text-bn">আমি যদি দূরে দেখতে পাই, তা মহান মানুষদের কাঁধে দাঁড়িয়ে।</p>
+      <div class="quote-author">
+        <div class="author-avatar">🍎</div>
+        <div>
+          <div class="author-name">Isaac Newton</div>
+          <div class="author-title">গণিতবিদ ও পদার্থবিজ্ঞানী</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">Pure mathematics is the world's best game. It is more absorbing than chess.</p>
+      <p class="quote-text-bn">বিশুদ্ধ গণিত পৃথিবীর সেরা খেলা — দাবার চেয়েও আকর্ষণীয়।</p>
+      <div class="quote-author">
+        <div class="author-avatar">📊</div>
+        <div>
+          <div class="author-name">G. H. Hardy</div>
+          <div class="author-title">গণিতবিদ, কেমব্রিজ বিশ্ববিদ্যালয়</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">The important thing is not to stop questioning.</p>
+      <p class="quote-text-bn">গুরুত্বপূর্ণ বিষয় হলো প্রশ্ন করা বন্ধ না করা।</p>
+      <div class="quote-author">
+        <div class="author-avatar">💡</div>
+        <div>
+          <div class="author-name">Albert Einstein</div>
+          <div class="author-title">পদার্থবিজ্ঞানী</div>
+        </div>
+      </div>
+    </div>
+    <div class="quote-card">
+      <div class="quote-mark">"</div>
+      <p class="quote-text">শিক্ষাই জাতির মেরুদণ্ড।</p>
+      <p class="quote-text-bn">Education is the backbone of a nation.</p>
+      <div class="quote-author">
+        <div class="author-avatar">🇧🇩</div>
+        <div>
+          <div class="author-name">বাংলাদেশের প্রবাদ</div>
+          <div class="author-title">বাংলা লোকজ্ঞান</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CTA -->
+<div class="cta-section">
+  <h2 class="fade-in">আজই শুরু করো — সম্পূর্ণ বিনামূল্যে!</h2>
+  <p class="fade-in">হাজারো শিক্ষার্থীর সাথে যোগ দাও, AI টিউটরের সাহায্যে পরীক্ষায় ভালো ফল করো</p>
+  <a href="register.html" class="cta-btn fade-in">এখনই রেজিস্ট্রেশন করো →</a>
+</div>
+
+<!-- FOOTER -->
+<footer>
+  <div class="logo">🎓 Edu<span>Tutor</span> BD</div>
+  <p>বাংলাদেশের শিক্ষার্থীদের জন্য তৈরি, বাংলায় পরিচালিত AI শিক্ষা প্ল্যাটফর্ম</p>
+  <div class="footer-links">
+    <a href="index.html">লগইন</a>
+    <a href="register.html">রেজিস্ট্রেশন</a>
+    <a href="home.html">ড্যাশবোর্ড</a>
+  </div>
+  <div class="footer-copy">© ২০২৫ EduTutor BD — সকল অধিকার সংরক্ষিত | Powered by Groq AI + Supabase</div>
+</footer>
+
+<script>
+  let current = 0;
+  const slides = document.querySelectorAll('.slide');
+  const dots = document.querySelectorAll('.dot');
+
+  function goSlide(n) {
+    slides[current].classList.remove('active');
+    dots[current].classList.remove('active');
+    current = n;
+    slides[current].classList.add('active');
+    dots[current].classList.add('active');
+  }
+
+  setInterval(() => {
+    goSlide((current + 1) % slides.length);
+  }, 3000);
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(e => {
+      if (e.isIntersecting) e.target.classList.add('visible');
+    });
+  }, { threshold: 0.15 });
+
+  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+</script>
+</body>
+</html>
