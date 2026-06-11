@@ -6,6 +6,41 @@
   <title>EduTutor BD — হোম</title>
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
+  <style>
+    .streak-bar{
+      background:linear-gradient(135deg,#ff6b35,#f7931e);
+      border-radius:14px;padding:16px 22px;
+      display:flex;align-items:center;justify-content:space-between;
+      margin-bottom:20px;color:white;
+    }
+    .streak-left{display:flex;align-items:center;gap:12px;}
+    .streak-fire{font-size:32px;animation:fire .8s ease-in-out infinite alternate;}
+    @keyframes fire{from{transform:scale(1);}to{transform:scale(1.15);}}
+    .streak-num{font-family:'Poppins',sans-serif;font-size:28px;font-weight:800;line-height:1;}
+    .streak-label{font-size:13px;opacity:.85;}
+    .streak-right{font-size:13px;opacity:.8;text-align:right;}
+    .goal-card{
+      background:white;border:1.5px solid rgba(29,158,117,0.2);
+      border-radius:14px;padding:18px 22px;margin-bottom:20px;
+    }
+    .goal-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;}
+    .goal-title{font-weight:700;font-size:15px;color:#0d1f1a;}
+    .goal-badge{
+      background:#E1F5EE;color:#085041;
+      font-size:12px;font-weight:700;
+      padding:4px 12px;border-radius:20px;
+    }
+    .goal-bar-bg{background:#f0f0f0;border-radius:8px;height:10px;overflow:hidden;}
+    .goal-bar-fill{height:100%;border-radius:8px;background:linear-gradient(90deg,#1D9E75,#EF9F27);transition:width .5s;}
+    .goal-text{font-size:13px;color:#666;margin-top:8px;}
+    .goal-btns{display:flex;gap:8px;margin-top:12px;}
+    .goal-btn{
+      flex:1;padding:8px;border-radius:8px;border:none;cursor:pointer;
+      font-family:'Hind Siliguri',sans-serif;font-size:13px;font-weight:600;
+    }
+    .goal-btn.set{background:#1D9E75;color:white;}
+    .goal-btn.change{background:#f0f0f0;color:#333;}
+  </style>
 </head>
 <body class="main-page">
   <nav class="navbar">
@@ -20,6 +55,34 @@
       <h1>স্বাগতম, <span id="user-name-2"></span>! 👋</h1>
       <p>আজ কোন বিষয়টি পড়তে চাও?</p>
     </div>
+
+    <!-- STREAK BAR -->
+    <div class="streak-bar" id="streak-bar">
+      <div class="streak-left">
+        <div class="streak-fire">🔥</div>
+        <div>
+          <div class="streak-num" id="streak-num">০</div>
+          <div class="streak-label">দিনের Streak</div>
+        </div>
+      </div>
+      <div class="streak-right" id="streak-right">লোড হচ্ছে...</div>
+    </div>
+
+    <!-- DAILY GOAL -->
+    <div class="goal-card" id="goal-card">
+      <div class="goal-header">
+        <div class="goal-title">🎯 আজকের লক্ষ্য</div>
+        <div class="goal-badge" id="goal-badge">০/৩ সেশন</div>
+      </div>
+      <div class="goal-bar-bg">
+        <div class="goal-bar-fill" id="goal-bar" style="width:0%"></div>
+      </div>
+      <div class="goal-text" id="goal-text">আজ ৩টি সেশন সম্পন্ন করো!</div>
+      <div class="goal-btns" id="goal-btns" style="display:none">
+        <button class="goal-btn change" onclick="changeGoal()">লক্ষ্য পরিবর্তন</button>
+      </div>
+    </div>
+
     <div class="subject-grid">
       <div class="subject-card" onclick="goToTutor('physics')">
         <div class="subject-icon">⚛️</div>
@@ -39,6 +102,7 @@
     </div>
     <div class="quick-links">
       <a href="progress.html" class="quick-link"><span>📊</span> আমার অগ্রগতি</a>
+      <a href="leaderboard.html" class="quick-link"><span>🏆</span> Leaderboard</a>
     </div>
   </div>
   <script src="js/api.js"></script>

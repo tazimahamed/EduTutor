@@ -59,7 +59,7 @@ def _generate(prompt: str) -> str:
                     {"role": "system", "content": SYSTEM_PERSONA},
                     {"role": "user",   "content": prompt}
                 ],
-                max_tokens=4096,
+                max_tokens=1000,
                 temperature=0.3,
             )
             return res.choices[0].message.content.strip()
@@ -70,10 +70,9 @@ def _generate(prompt: str) -> str:
                 raise e
 
 def _parse_json(text: str) -> Optional[dict]:
-    start = text.find('{')
-    end = text.rfind('}')
-    if start != -1 and end != -1:
-        try: return json.loads(text[start:end+1])
+    m = re.search(r'\{.*\}', text, re.DOTALL)
+    if m:
+        try: return json.loads(m.group())
         except: pass
     return None
 
@@ -393,12 +392,94 @@ NCTB প্রসঙ্গ: {ctx}
                     "explanation":    q.get("explanation", "")
                 })
         if not clean:
-            raise HTTPException(status_code=500, detail=f"MCQ parse failed. Raw: {text[:500]}")
+            raise HTTPException(status_code=500, detail="MCQ তৈরি করতে পারিনি, আবার চেষ্টা করো।")
         return {"success": True, "questions": clean, "count": len(clean)}
     except HTTPException:
         raise
     except Exception as e:
-        raise HTTPException(status_code=500, detail=f"MCQ error: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"MCQ error: {{str(e)}}")
+
+
+# ── LEADERBOARD ROUTE ─────────────────────────────────────────
+@app.get("/api/leaderboard")
+async def get_leaderboard():
+    try:
+        supa = get_supa()
+        profiles = supa.table("profiles").select("*").eq("role","student").execute().data or []
+        sessions = supa.table("sessions").select("*").execute().data or []
+        board = []
+        for p in profiles:
+            pid  = p["id"]
+            sess = [r for r in sessions if r.get("student_id")==pid]
+            n    = len(sess)
+            avg  = round(sum(r.get("percentage",0) for r in sess)/n) if n else 0
+            board.append({
+                "name": p.get("name",""),
+                "grade": p.get("grade","SSC"),
+                "total_sessions": n,
+                "avg_score": avg,
+                "total_points": n * avg
+            })
+        board.sort(key=lambda x: x["total_points"], reverse=True)
+        for i, b in enumerate(board):
+            b["rank"] = i + 1
+        return {"success": True, "leaderboard": board[:20]}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ── STREAK ROUTE ──────────────────────────────────────────────
+@app.get("/api/progress/streak/{student_id}")
+async def get_streak(student_id: str):
+    try:
+        from datetime import datetime, timedelta, timezone
+        supa = get_supa()
+        res  = supa.table("sessions").select("created_at").eq("student_id", student_id).execute()
+        rows = res.data or []
+        if not rows:
+            return {"success": True, "streak": 0, "total_days": 0}
+        dates = set()
+        for r in rows:
+            try:
+                d = r["created_at"][:10]
+                dates.add(d)
+            except: pass
+        today = datetime.now(timezone.utc).date()
+        streak = 0
+        check  = today
+        while str(check) in dates:
+            streak += 1
+            check  -= timedelta(days=1)
+        return {"success": True, "streak": streak, "total_days": len(dates)}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+# ── WEEKLY REPORT ROUTE ───────────────────────────────────────
+@app.get("/api/progress/weekly/{student_id}")
+async def get_weekly(student_id: str):
+    try:
+        from datetime import datetime, timedelta, timezone
+        supa = get_supa()
+        res  = supa.table("sessions").select("*").eq("student_id", student_id).execute()
+        rows = res.data or []
+        today = datetime.now(timezone.utc).date()
+        week  = {}
+        for i in range(6, -1, -1):
+            d = str(today - timedelta(days=i))
+            week[d] = {"sessions": 0, "avg": 0, "scores": []}
+        for r in rows:
+            try:
+                d = r["created_at"][:10]
+                if d in week:
+                    week[d]["sessions"] += 1
+                    week[d]["scores"].append(r.get("percentage", 0))
+            except: pass
+        result = []
+        for d, v in week.items():
+            avg = round(sum(v["scores"]) / len(v["scores"])) if v["scores"] else 0
+            result.append({"date": d, "sessions": v["sessions"], "avg_score": avg})
+        return {"success": True, "weekly": result}
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
 
 # ── Mangum Handler for Vercel ────────────────────────────────
 handler = Mangum(app, lifespan="off")

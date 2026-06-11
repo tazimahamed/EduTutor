@@ -8,6 +8,7 @@
     { "src": "/api/(.*)", "dest": "/api/index.py" },
     { "src": "/", "dest": "/public/index.html" },
     { "src": "/register.html", "dest": "/public/register.html" },
+    { "src": "/leaderboard.html", "dest": "/public/leaderboard.html" },
     { "src": "/home.html", "dest": "/public/home.html" },
     { "src": "/tutor.html", "dest": "/public/tutor.html" },
     { "src": "/progress.html", "dest": "/public/progress.html" },
