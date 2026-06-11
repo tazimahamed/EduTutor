@@ -70,9 +70,13 @@ def _generate(prompt: str) -> str:
                 raise e
 
 def _parse_json(text: str) -> Optional[dict]:
-    m = re.search(r'\{.*\}', text, re.DOTALL)
-    if m:
-        try: return json.loads(m.group())
+    # markdown code block strip
+    text = re.sub(r'```(?:json)?', '', text).strip()
+    # outermost { } খোঁজো
+    start = text.find('{')
+    end   = text.rfind('}')
+    if start != -1 and end != -1 and end > start:
+        try: return json.loads(text[start:end+1])
         except: pass
     return None
 
