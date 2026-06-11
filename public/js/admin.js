@@ -4,7 +4,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   if (role !== 'admin') { window.location.href = '/index.html'; return; }
   document.getElementById('admin-name').textContent = localStorage.getItem('user_name') || 'Admin';
   try {
-    const data = await apiCall('/api/admin/dashboard')
+    const data = await apiCall('/admin/dashboard')
     document.getElementById('total-students').textContent = data.total_students || '০';
     document.getElementById('total-sessions').textContent = data.total_sessions || '০';
     document.getElementById('overall-avg').textContent    = (data.overall_avg || 0) + '%';
