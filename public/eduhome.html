@@ -6,451 +6,254 @@
 <title>EduTutor BD — Home</title>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
 <style>
-  *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+:root{
+  --green:#1D9E75;--green-dark:#085041;--green-mid:#0F6E56;
+  --green-light:#E1F5EE;--green-glow:rgba(29,158,117,0.18);
+  --amber:#EF9F27;--blue:#378ADD;
+  --text:#0d1f1a;--text-muted:#4a6560;
+  --bg:#f4fdf9;--white:#ffffff;--border:rgba(29,158,117,0.14);
+}
+html{scroll-behavior:smooth;}
+body{font-family:'Hind Siliguri',sans-serif;background:var(--bg);color:var(--text);overflow-x:hidden;}
 
-  :root {
-    --green: #1D9E75;
-    --green-dark: #0F6E56;
-    --green-light: #E1F5EE;
-    --blue: #378ADD;
-    --blue-light: #E6F1FB;
-    --amber: #EF9F27;
-    --text: #1a1a2e;
-    --text-muted: #5a6070;
-    --bg: #f8fffe;
-    --white: #ffffff;
-    --card-bg: #ffffff;
-    --border: rgba(29,158,117,0.15);
-  }
+/* NAVBAR */
+nav{
+  position:fixed;top:0;left:0;right:0;
+  background:rgba(255,255,255,0.96);
+  backdrop-filter:blur(16px);
+  border-bottom:1px solid var(--border);
+  padding:0 6%;display:flex;align-items:center;justify-content:space-between;
+  height:68px;z-index:200;
+}
+.nav-logo{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:var(--green-dark);display:flex;align-items:center;gap:6px;}
+.nav-logo span{color:var(--amber);}
+.nav-btns{display:flex;gap:10px;}
+.btn-outline{
+  padding:9px 22px;border:2px solid var(--green);border-radius:50px;
+  background:transparent;color:var(--green-dark);
+  font-family:'Hind Siliguri',sans-serif;font-size:15px;font-weight:600;
+  cursor:pointer;transition:all .2s;text-decoration:none;
+}
+.btn-outline:hover{background:var(--green-light);}
+.btn-solid{
+  padding:9px 22px;border:none;border-radius:50px;
+  background:linear-gradient(135deg,var(--green),var(--green-mid));
+  color:white;font-family:'Hind Siliguri',sans-serif;
+  font-size:15px;font-weight:600;cursor:pointer;transition:all .2s;text-decoration:none;
+  box-shadow:0 4px 14px rgba(29,158,117,0.35);
+}
+.btn-solid:hover{transform:translateY(-1px);box-shadow:0 6px 20px rgba(29,158,117,0.45);}
 
-  html { scroll-behavior: smooth; }
+/* HERO */
+.hero{margin-top:68px;position:relative;height:520px;overflow:hidden;}
+.slide{position:absolute;inset:0;opacity:0;transition:opacity 1.2s ease;}
+.slide.active{opacity:1;}
+.slide-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform 8s ease;}
+.slide.active .slide-bg{transform:scale(1.06);}
+.slide-overlay{position:absolute;inset:0;background:linear-gradient(135deg,rgba(8,80,65,0.75) 0%,rgba(8,80,65,0.35) 100%);}
+.slide-content{position:relative;z-index:2;color:white;padding:0 8%;max-width:680px;display:flex;flex-direction:column;justify-content:center;height:100%;}
+.slide-tag{
+  display:inline-block;background:rgba(29,158,117,0.9);
+  backdrop-filter:blur(8px);color:white;
+  font-size:12px;font-weight:700;padding:5px 16px;
+  border-radius:20px;margin-bottom:18px;letter-spacing:1.5px;text-transform:uppercase;
+  width:fit-content;
+}
+.slide-content h2{font-family:'Poppins',sans-serif;font-size:44px;font-weight:800;line-height:1.15;margin-bottom:14px;}
+.slide-content p{font-size:17px;opacity:.88;line-height:1.7;max-width:520px;}
+.slide-cta{
+  margin-top:28px;display:inline-block;
+  background:white;color:var(--green-dark);
+  font-family:'Hind Siliguri',sans-serif;font-size:16px;font-weight:700;
+  padding:12px 28px;border-radius:50px;text-decoration:none;
+  transition:all .2s;width:fit-content;
+}
+.slide-cta:hover{background:var(--green-light);transform:translateX(4px);}
+.slide-dots{position:absolute;bottom:24px;left:8%;display:flex;gap:8px;z-index:5;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(255,255,255,.4);cursor:pointer;transition:all .3s;}
+.dot.active{background:white;width:28px;border-radius:4px;}
 
-  body {
-    font-family: 'Hind Siliguri', sans-serif;
-    background: var(--bg);
-    color: var(--text);
-    overflow-x: hidden;
-  }
+/* STATS BANNER */
+.stats-banner{
+  background:linear-gradient(135deg,var(--green-dark) 0%,var(--green-mid) 60%,var(--green) 100%);
+  padding:52px 6%;
+}
+.stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:24px;text-align:center;}
+.stat-item{color:white;}
+.stat-number{font-family:'Poppins',sans-serif;font-size:42px;font-weight:800;color:#9FE1CB;line-height:1;margin-bottom:6px;}
+.stat-label{font-size:14px;opacity:.82;line-height:1.4;}
 
-  /* NAVBAR */
-  nav {
-    position: fixed; top: 0; left: 0; right: 0;
-    background: rgba(255,255,255,0.95);
-    backdrop-filter: blur(10px);
-    border-bottom: 1px solid var(--border);
-    padding: 0 5%;
-    display: flex; align-items: center; justify-content: space-between;
-    height: 64px;
-    z-index: 100;
-  }
-  .nav-logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 22px; font-weight: 800;
-    color: var(--green-dark);
-    display: flex; align-items: center; gap: 8px;
-  }
-  .nav-logo span { color: var(--amber); }
-  .nav-btns { display: flex; gap: 12px; }
-  .btn-outline {
-    padding: 8px 20px;
-    border: 2px solid var(--green);
-    border-radius: 8px;
-    background: transparent;
-    color: var(--green-dark);
-    font-family: 'Hind Siliguri', sans-serif;
-    font-size: 15px; font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-  }
-  .btn-outline:hover { background: var(--green-light); }
-  .btn-solid {
-    padding: 8px 20px;
-    border: none;
-    border-radius: 8px;
-    background: var(--green);
-    color: white;
-    font-family: 'Hind Siliguri', sans-serif;
-    font-size: 15px; font-weight: 600;
-    cursor: pointer;
-    transition: all 0.2s;
-    text-decoration: none;
-  }
-  .btn-solid:hover { background: var(--green-dark); }
+/* SECTION COMMONS */
+.sec{padding:88px 6%;}
+.sec-alt{background:white;}
+.sec-label{font-size:12px;font-weight:700;color:var(--green);letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+.sec-title{font-family:'Poppins',sans-serif;font-size:36px;font-weight:800;color:var(--text);margin-bottom:14px;line-height:1.2;}
+.sec-title span{color:var(--green);}
+.sec-sub{font-size:17px;color:var(--text-muted);max-width:620px;line-height:1.75;margin-bottom:52px;}
 
-  /* HERO SLIDER */
-  .hero {
-    margin-top: 64px;
-    position: relative;
-    height: 480px;
-    overflow: hidden;
-  }
-  .slide {
-    position: absolute; inset: 0;
-    opacity: 0;
-    transition: opacity 1s ease;
-    display: flex; align-items: center; justify-content: center;
-  }
-  .slide.active { opacity: 1; }
-  .slide-bg {
-    position: absolute; inset: 0;
-    background-size: cover;
-    background-position: center;
-    filter: brightness(0.55);
-  }
-  .slide-content {
-    position: relative; z-index: 2;
-    text-align: center;
-    color: white;
-    padding: 0 20px;
-    max-width: 700px;
-  }
-  .slide-tag {
-    display: inline-block;
-    background: rgba(29,158,117,0.85);
-    color: white;
-    font-size: 13px; font-weight: 600;
-    padding: 4px 14px;
-    border-radius: 20px;
-    margin-bottom: 16px;
-    letter-spacing: 1px;
-    text-transform: uppercase;
-  }
-  .slide-content h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 38px; font-weight: 800;
-    line-height: 1.2;
-    margin-bottom: 12px;
-    text-shadow: 0 2px 8px rgba(0,0,0,0.4);
-  }
-  .slide-content p {
-    font-size: 16px;
-    opacity: 0.9;
-    line-height: 1.6;
-  }
-  .slide-dots {
-    position: absolute; bottom: 20px; left: 50%;
-    transform: translateX(-50%);
-    display: flex; gap: 8px; z-index: 5;
-  }
-  .dot {
-    width: 8px; height: 8px;
-    border-radius: 50%;
-    background: rgba(255,255,255,0.5);
-    cursor: pointer;
-    transition: all 0.3s;
-  }
-  .dot.active {
-    background: white;
-    width: 24px;
-    border-radius: 4px;
-  }
+/* FEATURES GRID */
+.features-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(260px,1fr));gap:20px;}
+.feature-card{
+  background:white;border:1.5px solid var(--border);border-radius:20px;
+  padding:30px 26px;transition:all .28s;position:relative;overflow:hidden;
+}
+.feature-card::before{
+  content:'';position:absolute;inset:0;
+  background:linear-gradient(135deg,var(--green-glow),transparent);
+  opacity:0;transition:opacity .28s;
+}
+.feature-card:hover{transform:translateY(-6px);border-color:rgba(29,158,117,0.4);box-shadow:0 16px 40px rgba(29,158,117,0.14);}
+.feature-card:hover::before{opacity:1;}
+.feature-icon{
+  width:56px;height:56px;border-radius:14px;
+  background:var(--green-light);
+  display:flex;align-items:center;justify-content:center;
+  font-size:28px;margin-bottom:18px;
+  box-shadow:0 4px 12px rgba(29,158,117,0.15);
+}
+.feature-card h3{font-family:'Poppins',sans-serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.feature-card p{font-size:14px;color:var(--text-muted);line-height:1.65;}
 
-  /* SECTION */
-  section { padding: 80px 5%; }
+/* SUBJECTS */
+.subjects-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px;}
+.subject-card{
+  border-radius:20px;padding:36px 26px;text-align:center;
+  cursor:pointer;transition:all .28s;position:relative;overflow:hidden;
+  text-decoration:none;display:block;
+}
+.subject-card:hover{transform:translateY(-6px);box-shadow:0 16px 40px rgba(0,0,0,0.1);}
+.subject-card.physics{background:linear-gradient(135deg,#dbeeff,#b5d4f4);}
+.subject-card.chemistry{background:linear-gradient(135deg,#fff3d6,#FAC775);}
+.subject-card.math{background:linear-gradient(135deg,#d4f5e9,#9FE1CB);}
+.subject-emoji{font-size:48px;margin-bottom:14px;display:block;}
+.subject-card h3{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;margin-bottom:8px;}
+.subject-card.physics h3{color:#0C447C;}
+.subject-card.chemistry h3{color:#633806;}
+.subject-card.math h3{color:var(--green-dark);}
+.subject-card p{font-size:13px;color:var(--text-muted);line-height:1.6;}
+.subject-badge{
+  display:inline-block;margin-top:14px;
+  background:rgba(255,255,255,.7);
+  font-size:12px;font-weight:700;padding:4px 14px;border-radius:20px;
+  color:var(--text);
+}
 
-  /* SUMMARY */
-  .summary-section {
-    background: white;
-    padding: 80px 5%;
-  }
-  .section-label {
-    font-size: 13px; font-weight: 700;
-    color: var(--green);
-    letter-spacing: 2px;
-    text-transform: uppercase;
-    margin-bottom: 12px;
-  }
-  .section-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 34px; font-weight: 800;
-    color: var(--text);
-    margin-bottom: 16px;
-    line-height: 1.25;
-  }
-  .section-title span { color: var(--green); }
-  .section-sub {
-    font-size: 17px;
-    color: var(--text-muted);
-    max-width: 600px;
-    line-height: 1.7;
-    margin-bottom: 48px;
-  }
-  .features-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 24px;
-  }
-  .feature-card {
-    background: var(--bg);
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 28px 24px;
-    transition: transform 0.2s, box-shadow 0.2s;
-  }
-  .feature-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 12px 32px rgba(29,158,117,0.12);
-  }
-  .feature-icon {
-    width: 52px; height: 52px;
-    border-radius: 12px;
-    background: var(--green-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 26px;
-    margin-bottom: 16px;
-  }
-  .feature-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 17px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .feature-card p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
+/* STEPS */
+.steps-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:0;position:relative;}
+.steps-grid::before{
+  content:'';position:absolute;top:52px;left:12%;right:12%;height:2px;
+  background:linear-gradient(90deg,var(--green-light),var(--green),var(--green-light));
+  z-index:0;
+}
+.step-card{text-align:center;padding:32px 20px;position:relative;z-index:1;}
+.step-num{
+  width:60px;height:60px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green),var(--green-mid));
+  color:white;font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;
+  display:flex;align-items:center;justify-content:center;
+  margin:0 auto 16px;
+  box-shadow:0 6px 20px rgba(29,158,117,0.35);
+  border:3px solid white;
+}
+.step-card h3{font-family:'Poppins',sans-serif;font-size:16px;font-weight:700;color:var(--text);margin-bottom:8px;}
+.step-card p{font-size:13px;color:var(--text-muted);line-height:1.65;}
 
-  /* STATS */
-  .stats-section {
-    background: linear-gradient(135deg, #085041 0%, #0F6E56 50%, #1D9E75 100%);
-    padding: 64px 5%;
-  }
-  .stats-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
-    gap: 32px;
-    text-align: center;
-  }
-  .stat-item { color: white; }
-  .stat-number {
-    font-family: 'Poppins', sans-serif;
-    font-size: 48px; font-weight: 800;
-    color: #9FE1CB;
-    line-height: 1;
-    margin-bottom: 8px;
-  }
-  .stat-label {
-    font-size: 15px;
-    opacity: 0.85;
-  }
+/* QUOTES CAROUSEL */
+.quotes-section{background:linear-gradient(180deg,var(--bg) 0%,#e8f8f2 100%);padding:88px 6%;}
+.quotes-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:40px;flex-wrap:wrap;gap:16px;}
+.quotes-title{font-family:'Poppins',sans-serif;font-size:32px;font-weight:800;color:var(--text);}
+.quotes-title span{color:var(--green);}
+.quote-controls{display:flex;gap:10px;}
+.qbtn{
+  width:42px;height:42px;border-radius:50%;border:2px solid var(--green);
+  background:white;color:var(--green-dark);font-size:18px;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;transition:all .2s;
+}
+.qbtn:hover{background:var(--green);color:white;}
+.quotes-track-wrap{overflow:hidden;border-radius:20px;}
+.quotes-track{display:flex;transition:transform .7s cubic-bezier(.4,0,.2,1);will-change:transform;}
+.quote-card{
+  min-width:320px;max-width:320px;flex-shrink:0;
+  background:white;border:1.5px solid var(--border);border-radius:20px;
+  padding:28px;margin:0 10px;
+  box-shadow:0 4px 20px rgba(29,158,117,0.07);
+  transition:box-shadow .28s;
+}
+.quote-card.focused{box-shadow:0 8px 32px rgba(29,158,117,0.18);border-color:rgba(29,158,117,0.35);}
+.quote-accent{width:40px;height:4px;background:linear-gradient(90deg,var(--green),var(--amber));border-radius:2px;margin-bottom:16px;}
+.quote-text-en{font-size:14px;font-style:italic;color:var(--text);line-height:1.75;margin-bottom:10px;}
+.quote-text-bn{font-size:13px;color:var(--text-muted);line-height:1.65;margin-bottom:20px;padding-bottom:20px;border-bottom:1px solid var(--border);}
+.quote-author{display:flex;align-items:center;gap:12px;}
+.author-avatar{
+  width:44px;height:44px;border-radius:50%;
+  background:linear-gradient(135deg,var(--green-light),#9FE1CB);
+  display:flex;align-items:center;justify-content:center;font-size:20px;
+  flex-shrink:0;
+}
+.author-name{font-size:14px;font-weight:700;color:var(--text);}
+.author-title{font-size:12px;color:var(--text-muted);}
+.quote-progress{display:flex;gap:6px;margin-top:24px;justify-content:center;}
+.qprog-dot{width:6px;height:6px;border-radius:50%;background:rgba(29,158,117,0.25);transition:all .3s;cursor:pointer;}
+.qprog-dot.active{background:var(--green);width:20px;border-radius:3px;}
 
-  /* SUBJECTS */
-  .subjects-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 20px;
-  }
-  .subject-card {
-    border-radius: 16px;
-    padding: 32px 24px;
-    text-align: center;
-    cursor: pointer;
-    transition: transform 0.2s;
-  }
-  .subject-card:hover { transform: translateY(-4px); }
-  .subject-card.physics { background: #E6F1FB; }
-  .subject-card.chemistry { background: #FAEEDA; }
-  .subject-card.math { background: #E1F5EE; }
-  .subject-emoji { font-size: 40px; margin-bottom: 12px; }
-  .subject-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 18px; font-weight: 700;
-    margin-bottom: 6px;
-  }
-  .subject-card.physics h3 { color: #185FA5; }
-  .subject-card.chemistry h3 { color: #854F0B; }
-  .subject-card.math h3 { color: #085041; }
-  .subject-card p { font-size: 13px; color: var(--text-muted); }
+/* CTA */
+.cta-section{
+  background:linear-gradient(135deg,var(--green-dark) 0%,var(--green-mid) 50%,var(--green) 100%);
+  padding:88px 6%;text-align:center;color:white;position:relative;overflow:hidden;
+}
+.cta-section::before{
+  content:'';position:absolute;
+  width:500px;height:500px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  top:-200px;right:-100px;
+}
+.cta-section::after{
+  content:'';position:absolute;
+  width:300px;height:300px;border-radius:50%;
+  background:rgba(255,255,255,.04);
+  bottom:-100px;left:-50px;
+}
+.cta-section h2{font-family:'Poppins',sans-serif;font-size:38px;font-weight:800;margin-bottom:16px;position:relative;}
+.cta-section p{font-size:18px;opacity:.9;margin-bottom:36px;position:relative;}
+.cta-btn{
+  display:inline-block;background:white;color:var(--green-dark);
+  font-family:'Hind Siliguri',sans-serif;font-size:18px;font-weight:700;
+  padding:16px 44px;border-radius:50px;text-decoration:none;
+  transition:all .25s;border:none;cursor:pointer;position:relative;
+  box-shadow:0 8px 24px rgba(0,0,0,0.2);
+}
+.cta-btn:hover{background:var(--green-light);transform:scale(1.04);box-shadow:0 12px 32px rgba(0,0,0,0.25);}
 
-  /* SCIENTISTS / QUOTES */
-  .quotes-section {
-    background: #f8fffe;
-    padding: 80px 5%;
-  }
-  .quotes-title {
-    font-family: 'Poppins', sans-serif;
-    font-size: 30px; font-weight: 800;
-    color: var(--text);
-    margin-bottom: 40px;
-    text-align: center;
-  }
-  .quotes-title span { color: var(--green); }
-  .quotes-scroll {
-    display: flex;
-    gap: 20px;
-    overflow-x: auto;
-    padding-bottom: 12px;
-    scrollbar-width: none;
-  }
-  .quotes-scroll::-webkit-scrollbar { display: none; }
-  .quote-card {
-    min-width: 280px;
-    background: white;
-    border: 1.5px solid var(--border);
-    border-radius: 16px;
-    padding: 24px;
-    position: relative;
-  }
-  .quote-mark {
-    font-size: 48px;
-    color: var(--green-light);
-    font-family: Georgia, serif;
-    line-height: 0.8;
-    margin-bottom: 8px;
-  }
-  .quote-text {
-    font-size: 14px;
-    color: var(--text);
-    line-height: 1.7;
-    margin-bottom: 16px;
-    font-style: italic;
-  }
-  .quote-text-bn {
-    font-size: 13px;
-    color: var(--text-muted);
-    line-height: 1.6;
-    margin-bottom: 16px;
-  }
-  .quote-author {
-    display: flex; align-items: center; gap: 10px;
-  }
-  .author-avatar {
-    width: 40px; height: 40px;
-    border-radius: 50%;
-    background: var(--green-light);
-    display: flex; align-items: center; justify-content: center;
-    font-size: 18px;
-  }
-  .author-name {
-    font-size: 14px; font-weight: 700;
-    color: var(--text);
-  }
-  .author-title {
-    font-size: 12px;
-    color: var(--text-muted);
-  }
+/* FOOTER */
+footer{background:#071510;color:rgba(255,255,255,.65);padding:52px 6% 32px;}
+.footer-inner{display:grid;grid-template-columns:1fr 1fr 1fr;gap:40px;margin-bottom:36px;}
+.footer-logo{font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:white;margin-bottom:10px;}
+.footer-logo span{color:var(--amber);}
+.footer-desc{font-size:13px;line-height:1.75;max-width:240px;}
+.footer-col h4{font-size:14px;font-weight:700;color:white;margin-bottom:14px;}
+.footer-col a{display:block;color:rgba(255,255,255,.55);text-decoration:none;font-size:13px;margin-bottom:8px;transition:color .2s;}
+.footer-col a:hover{color:var(--green);}
+.footer-copy{border-top:1px solid rgba(255,255,255,.08);padding-top:24px;font-size:12px;opacity:.45;text-align:center;}
 
-  /* HOW IT WORKS */
-  .steps-grid {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
-    gap: 24px;
-    position: relative;
-  }
-  .step-card {
-    text-align: center;
-    padding: 32px 20px;
-  }
-  .step-num {
-    width: 56px; height: 56px;
-    border-radius: 50%;
-    background: var(--green);
-    color: white;
-    font-family: 'Poppins', sans-serif;
-    font-size: 22px; font-weight: 800;
-    display: flex; align-items: center; justify-content: center;
-    margin: 0 auto 16px;
-  }
-  .step-card h3 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 16px; font-weight: 700;
-    color: var(--text);
-    margin-bottom: 8px;
-  }
-  .step-card p {
-    font-size: 14px;
-    color: var(--text-muted);
-    line-height: 1.6;
-  }
+/* SCROLL ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(32px);transition:opacity .75s ease,transform .75s ease;}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.fade-up:nth-child(2){transition-delay:.1s;}
+.fade-up:nth-child(3){transition-delay:.2s;}
+.fade-up:nth-child(4){transition-delay:.3s;}
+.fade-up:nth-child(5){transition-delay:.4s;}
+.fade-up:nth-child(6){transition-delay:.5s;}
 
-  /* CTA */
-  .cta-section {
-    background: linear-gradient(135deg, #1D9E75, #085041);
-    padding: 80px 5%;
-    text-align: center;
-    color: white;
-  }
-  .cta-section h2 {
-    font-family: 'Poppins', sans-serif;
-    font-size: 36px; font-weight: 800;
-    margin-bottom: 16px;
-  }
-  .cta-section p {
-    font-size: 18px;
-    opacity: 0.9;
-    margin-bottom: 36px;
-  }
-  .cta-btn {
-    display: inline-block;
-    background: white;
-    color: var(--green-dark);
-    font-family: 'Hind Siliguri', sans-serif;
-    font-size: 18px; font-weight: 700;
-    padding: 14px 40px;
-    border-radius: 50px;
-    text-decoration: none;
-    transition: all 0.2s;
-    border: none; cursor: pointer;
-  }
-  .cta-btn:hover {
-    background: var(--green-light);
-    transform: scale(1.04);
-  }
-
-  /* FOOTER */
-  footer {
-    background: #0a1628;
-    color: rgba(255,255,255,0.7);
-    padding: 48px 5% 32px;
-    text-align: center;
-  }
-  footer .logo {
-    font-family: 'Poppins', sans-serif;
-    font-size: 24px; font-weight: 800;
-    color: white;
-    margin-bottom: 12px;
-  }
-  footer .logo span { color: var(--amber); }
-  footer p { font-size: 14px; line-height: 1.8; }
-  footer .footer-links {
-    display: flex; justify-content: center; gap: 24px;
-    margin: 20px 0;
-    flex-wrap: wrap;
-  }
-  footer .footer-links a {
-    color: rgba(255,255,255,0.6);
-    text-decoration: none;
-    font-size: 14px;
-    transition: color 0.2s;
-  }
-  footer .footer-links a:hover { color: var(--green); }
-  .footer-copy {
-    margin-top: 24px;
-    font-size: 13px;
-    opacity: 0.5;
-    border-top: 1px solid rgba(255,255,255,0.1);
-    padding-top: 20px;
-  }
-
-  /* ANIMATIONS */
-  .fade-in {
-    opacity: 0;
-    transform: translateY(24px);
-    transition: opacity 0.7s ease, transform 0.7s ease;
-  }
-  .fade-in.visible {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  @media (max-width: 600px) {
-    .slide-content h2 { font-size: 24px; }
-    .section-title { font-size: 24px; }
-    .stat-number { font-size: 36px; }
-    .hero { height: 360px; }
-  }
+@media(max-width:768px){
+  .slide-content h2{font-size:28px;}
+  .sec-title{font-size:26px;}
+  .stat-number{font-size:32px;}
+  .hero{height:400px;}
+  .footer-inner{grid-template-columns:1fr;}
+  .steps-grid::before{display:none;}
+  .quote-card{min-width:280px;max-width:280px;}
+}
 </style>
 </head>
 <body>
@@ -460,34 +263,40 @@
   <div class="nav-logo">🎓 Edu<span>Tutor</span> BD</div>
   <div class="nav-btns">
     <a href="index.html" class="btn-outline">লগইন</a>
-    <a href="register.html" class="btn-solid">শুরু করো</a>
+    <a href="register.html" class="btn-solid">শুরু করো →</a>
   </div>
 </nav>
 
 <!-- HERO SLIDER -->
 <div class="hero">
   <div class="slide active" id="slide-0">
-    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1400&q=80')"></div>
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1532094349884-543bc11b234d?w=1400&q=80')"></div>
+    <div class="slide-overlay"></div>
     <div class="slide-content">
-      <div class="slide-tag">পদার্থবিজ্ঞান</div>
-      <h2>বিজ্ঞানের রহস্য উন্মোচন করো</h2>
-      <p>নিউটনের গতিসূত্র থেকে কোয়ান্টাম পদার্থবিজ্ঞান — AI-এর সাহায্যে সহজে শেখো</p>
+      <div class="slide-tag">⚛️ পদার্থবিজ্ঞান</div>
+      <h2>বিজ্ঞানের রহস্য<br>উন্মোচন করো</h2>
+      <p>নিউটনের গতিসূত্র থেকে কোয়ান্টাম পদার্থবিজ্ঞান — AI-এর সাহায্যে বাংলায় সহজে শেখো</p>
+      <a href="register.html" class="slide-cta">এখনই শুরু করো →</a>
     </div>
   </div>
   <div class="slide" id="slide-1">
-    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=1400&q=80')"></div>
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1628595351029-c2bf17511435?w=1400&q=80')"></div>
+    <div class="slide-overlay"></div>
     <div class="slide-content">
-      <div class="slide-tag">রসায়ন</div>
-      <h2>রসায়নের জগতে স্বাগতম</h2>
-      <p>পর্যায় সারণি থেকে জৈব রসায়ন — বাংলায় শেখো, বুঝে শেখো</p>
+      <div class="slide-tag">🧪 রসায়ন</div>
+      <h2>রসায়নের জগতে<br>স্বাগতম</h2>
+      <p>পর্যায় সারণি থেকে জৈব রসায়ন — NCTB পাঠ্যক্রম অনুযায়ী বুঝে শেখো</p>
+      <a href="register.html" class="slide-cta">বিনামূল্যে যোগ দাও →</a>
     </div>
   </div>
   <div class="slide" id="slide-2">
-    <div class="slide-bg" style="background-image: url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80')"></div>
+    <div class="slide-bg" style="background-image:url('https://images.unsplash.com/photo-1635070041078-e363dbe005cb?w=1400&q=80')"></div>
+    <div class="slide-overlay"></div>
     <div class="slide-content">
-      <div class="slide-tag">গণিত</div>
-      <h2>গণিতকে ভয় নয়, ভালোবাসো</h2>
-      <p>বীজগণিত, জ্যামিতি, ক্যালকুলাস — AI টিউটর তোমার পাশে সবসময়</p>
+      <div class="slide-tag">📐 গণিত</div>
+      <h2>গণিতকে ভয় নয়,<br>ভালোবাসো</h2>
+      <p>বীজগণিত, জ্যামিতি, ক্যালকুলাস — AI টিউটর তোমার পাশে ২৪/৭</p>
+      <a href="register.html" class="slide-cta">AI টিউটর চেষ্টা করো →</a>
     </div>
   </div>
   <div class="slide-dots">
@@ -498,241 +307,214 @@
 </div>
 
 <!-- STATS -->
-<div class="stats-section">
+<div class="stats-banner">
   <div class="stats-grid">
-    <div class="stat-item fade-in">
-      <div class="stat-number">৩টি</div>
-      <div class="stat-label">বিষয় (পদার্থ, রসায়ন, গণিত)</div>
-    </div>
-    <div class="stat-item fade-in">
-      <div class="stat-number">SSC/HSC</div>
-      <div class="stat-label">NCTB পাঠ্যক্রম অনুসরণ</div>
-    </div>
-    <div class="stat-item fade-in">
-      <div class="stat-number">২৪/৭</div>
-      <div class="stat-label">AI টিউটর সবসময় প্রস্তুত</div>
-    </div>
-    <div class="stat-item fade-in">
-      <div class="stat-number">বাংলা</div>
-      <div class="stat-label">মাতৃভাষায় সম্পূর্ণ শিক্ষা</div>
-    </div>
+    <div class="stat-item fade-up"><div class="stat-number">৩টি</div><div class="stat-label">বিষয়<br>পদার্থ · রসায়ন · গণিত</div></div>
+    <div class="stat-item fade-up"><div class="stat-number">SSC/HSC</div><div class="stat-label">NCTB পাঠ্যক্রম<br>সম্পূর্ণ অনুসরণ</div></div>
+    <div class="stat-item fade-up"><div class="stat-number">২৪/৭</div><div class="stat-label">AI টিউটর<br>সবসময় প্রস্তুত</div></div>
+    <div class="stat-item fade-up"><div class="stat-number">বাংলা</div><div class="stat-label">মাতৃভাষায়<br>সম্পূর্ণ শিক্ষা</div></div>
   </div>
 </div>
 
 <!-- PROJECT SUMMARY -->
-<div class="summary-section">
-  <div class="fade-in">
-    <div class="section-label">আমাদের সম্পর্কে</div>
-    <h2 class="section-title">EduTutor BD — <span>বাংলাদেশের প্রথম</span><br>AI-চালিত বাংলা টিউটর</h2>
-    <p class="section-sub">EduTutor BD হলো বাংলাদেশের SSC ও HSC শিক্ষার্থীদের জন্য তৈরি একটি বিশেষ AI শিক্ষা প্ল্যাটফর্ম। Bloom's Taxonomy অনুসরণ করে প্রতিটি শিক্ষার্থীর জন্য ব্যক্তিগতকৃত প্রশ্ন তৈরি করে, উত্তর মূল্যায়ন করে এবং বাংলায় বিস্তারিত ফিডব্যাক দেয়।</p>
+<section class="sec sec-alt">
+  <div class="fade-up">
+    <div class="sec-label">আমাদের সম্পর্কে</div>
+    <h2 class="sec-title">EduTutor BD —<br><span>বাংলাদেশের প্রথম AI টিউটর</span></h2>
+    <p class="sec-sub">SSC ও HSC শিক্ষার্থীদের জন্য তৈরি এই প্ল্যাটফর্ম Bloom's Taxonomy অনুসরণ করে প্রতিটি শিক্ষার্থীর জন্য ব্যক্তিগতকৃত প্রশ্ন তৈরি করে, উত্তর মূল্যায়ন করে এবং বাংলায় বিস্তারিত ফিডব্যাক দেয়।</p>
   </div>
   <div class="features-grid">
-    <div class="feature-card fade-in">
-      <div class="feature-icon">🤖</div>
-      <h3>AI-চালিত প্রশ্ন</h3>
-      <p>Groq LLaMA মডেল ব্যবহার করে প্রতিটি শিক্ষার্থীর স্তর অনুযায়ী নতুন প্রশ্ন তৈরি হয়</p>
-    </div>
-    <div class="feature-card fade-in">
-      <div class="feature-icon">📊</div>
-      <h3>Bloom's Taxonomy</h3>
-      <p>মনে রাখা থেকে সৃষ্টি — ৬টি স্তরে শিক্ষার্থীর বিকাশ ট্র্যাক করা হয়</p>
-    </div>
-    <div class="feature-card fade-in">
-      <div class="feature-icon">🇧🇩</div>
-      <h3>সম্পূর্ণ বাংলায়</h3>
-      <p>NCTB পাঠ্যক্রম অনুসরণ করে পুরো অভিজ্ঞতা বাংলায় — শিক্ষার্থী আরামদায়ক বোধ করে</p>
-    </div>
-    <div class="feature-card fade-in">
-      <div class="feature-icon">📝</div>
-      <h3>MCQ + CQ উভয়ই</h3>
-      <p>বহুনির্বাচনী ও সৃজনশীল প্রশ্ন — পরীক্ষার প্রস্তুতির জন্য সম্পূর্ণ সমাধান</p>
-    </div>
-    <div class="feature-card fade-in">
-      <div class="feature-icon">📈</div>
-      <h3>অগ্রগতি ট্র্যাকিং</h3>
-      <p>প্রতিটি সেশনের ফলাফল সংরক্ষিত থাকে, দুর্বল দিক চিহ্নিত করে উন্নতির পথ দেখায়</p>
-    </div>
-    <div class="feature-card fade-in">
-      <div class="feature-icon">👨‍💼</div>
-      <h3>Admin Dashboard</h3>
-      <p>শিক্ষকরা সকল শিক্ষার্থীর পারফরম্যান্স একসাথে দেখতে এবং পরিচালনা করতে পারবেন</p>
-    </div>
+    <div class="feature-card fade-up"><div class="feature-icon">🤖</div><h3>AI-চালিত প্রশ্ন</h3><p>Groq LLaMA মডেল ব্যবহার করে প্রতিটি শিক্ষার্থীর স্তর অনুযায়ী নতুন প্রশ্ন তৈরি হয়</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">📊</div><h3>Bloom's Taxonomy</h3><p>মনে রাখা থেকে সৃষ্টি — ৬টি স্তরে শিক্ষার্থীর বিকাশ ট্র্যাক করা হয়</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">🇧🇩</div><h3>সম্পূর্ণ বাংলায়</h3><p>NCTB পাঠ্যক্রম অনুসরণ করে পুরো অভিজ্ঞতা বাংলায় — মাতৃভাষায় শেখা সহজ</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">📝</div><h3>MCQ + CQ উভয়ই</h3><p>বহুনির্বাচনী ও সৃজনশীল প্রশ্ন — পরীক্ষার সম্পূর্ণ প্রস্তুতি এক জায়গায়</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">📈</div><h3>অগ্রগতি ট্র্যাকিং</h3><p>প্রতিটি সেশনের ফলাফল সংরক্ষিত, দুর্বল দিক চিহ্নিত করে উন্নতির পথ দেখায়</p></div>
+    <div class="feature-card fade-up"><div class="feature-icon">👨‍💼</div><h3>Admin Dashboard</h3><p>শিক্ষকরা সকল শিক্ষার্থীর পারফরম্যান্স একসাথে দেখতে ও পরিচালনা করতে পারবেন</p></div>
   </div>
-</div>
+</section>
 
 <!-- SUBJECTS -->
-<section style="background: var(--bg);">
-  <div class="fade-in" style="text-align:center; margin-bottom: 40px;">
-    <div class="section-label">বিষয়সমূহ</div>
-    <h2 class="section-title" style="text-align:center;">কোন বিষয়ে <span>পড়তে চাও?</span></h2>
+<section class="sec">
+  <div class="fade-up" style="text-align:center;margin-bottom:44px;">
+    <div class="sec-label">বিষয়সমূহ</div>
+    <h2 class="sec-title" style="text-align:center;">কোন বিষয়ে <span>পড়তে চাও?</span></h2>
   </div>
-  <div class="subjects-grid fade-in">
-    <div class="subject-card physics">
-      <div class="subject-emoji">⚛️</div>
+  <div class="subjects-grid">
+    <a href="register.html" class="subject-card physics fade-up">
+      <span class="subject-emoji">⚛️</span>
       <h3>পদার্থবিজ্ঞান</h3>
-      <p>নিউটনের সূত্র, তরঙ্গ, তড়িৎ, আলো ও আধুনিক পদার্থবিজ্ঞান</p>
-    </div>
-    <div class="subject-card chemistry">
-      <div class="subject-emoji">🧪</div>
+      <p>নিউটনের সূত্র, তরঙ্গ, তড়িৎ ও আধুনিক পদার্থবিজ্ঞান</p>
+      <span class="subject-badge">Physics →</span>
+    </a>
+    <a href="register.html" class="subject-card chemistry fade-up">
+      <span class="subject-emoji">🧪</span>
       <h3>রসায়ন</h3>
-      <p>পর্যায় সারণি, রাসায়নিক বন্ধন, এসিড-ক্ষারক, জৈব রসায়ন</p>
-    </div>
-    <div class="subject-card math">
-      <div class="subject-emoji">📐</div>
+      <p>পর্যায় সারণি, রাসায়নিক বন্ধন, এসিড-ক্ষারক</p>
+      <span class="subject-badge">Chemistry →</span>
+    </a>
+    <a href="register.html" class="subject-card math fade-up">
+      <span class="subject-emoji">📐</span>
       <h3>গণিত</h3>
-      <p>বীজগণিত, ত্রিকোণমিতি, জ্যামিতি, ক্যালকুলাস ও পরিসংখ্যান</p>
-    </div>
+      <p>বীজগণিত, ত্রিকোণমিতি, জ্যামিতি ও পরিসংখ্যান</p>
+      <span class="subject-badge">Mathematics →</span>
+    </a>
   </div>
 </section>
 
 <!-- HOW IT WORKS -->
-<section style="background: white;">
-  <div class="fade-in" style="text-align:center; margin-bottom: 40px;">
-    <div class="section-label">কীভাবে কাজ করে</div>
-    <h2 class="section-title" style="text-align:center;">মাত্র <span>৪টি ধাপে</span> শেখা শুরু</h2>
+<section class="sec sec-alt">
+  <div class="fade-up" style="text-align:center;margin-bottom:44px;">
+    <div class="sec-label">কীভাবে কাজ করে</div>
+    <h2 class="sec-title" style="text-align:center;">মাত্র <span>৪টি ধাপে</span> শেখা শুরু</h2>
   </div>
-  <div class="steps-grid fade-in">
-    <div class="step-card">
-      <div class="step-num">১</div>
-      <h3>অ্যাকাউন্ট তৈরি করো</h3>
-      <p>বিনামূল্যে রেজিস্ট্রেশন করো, শ্রেণি ও বিষয় নির্বাচন করো</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">২</div>
-      <h3>বিষয় বেছে নাও</h3>
-      <p>পদার্থ, রসায়ন বা গণিত — যেকোনো অধ্যায় থেকে শুরু করো</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">৩</div>
-      <h3>AI প্রশ্ন করবে</h3>
-      <p>তোমার স্তর অনুযায়ী AI বাংলায় প্রশ্ন তৈরি করবে</p>
-    </div>
-    <div class="step-card">
-      <div class="step-num">৪</div>
-      <h3>ফিডব্যাক পাও</h3>
-      <p>উত্তর দাও, তাৎক্ষণিক মূল্যায়ন ও বিস্তারিত ব্যাখ্যা পাও</p>
-    </div>
+  <div class="steps-grid">
+    <div class="step-card fade-up"><div class="step-num">১</div><h3>অ্যাকাউন্ট তৈরি করো</h3><p>বিনামূল্যে রেজিস্ট্রেশন করো, শ্রেণি ও বিষয় নির্বাচন করো</p></div>
+    <div class="step-card fade-up"><div class="step-num">২</div><h3>বিষয় বেছে নাও</h3><p>পদার্থ, রসায়ন বা গণিত — যেকোনো অধ্যায় থেকে শুরু করো</p></div>
+    <div class="step-card fade-up"><div class="step-num">৩</div><h3>AI প্রশ্ন করবে</h3><p>তোমার স্তর অনুযায়ী AI বাংলায় প্রশ্ন তৈরি করবে</p></div>
+    <div class="step-card fade-up"><div class="step-num">৪</div><h3>ফিডব্যাক পাও</h3><p>উত্তর দাও, তাৎক্ষণিক মূল্যায়ন ও বিস্তারিত ব্যাখ্যা পাও</p></div>
   </div>
 </section>
 
-<!-- SCIENTIST QUOTES -->
+<!-- QUOTES CAROUSEL -->
 <div class="quotes-section">
-  <h2 class="quotes-title fade-in">মহান বিজ্ঞানীদের <span>অনুপ্রেরণা</span></h2>
-  <div class="quotes-scroll fade-in">
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">Imagination is more important than knowledge.</p>
-      <p class="quote-text-bn">জ্ঞানের চেয়ে কল্পনাশক্তি বেশি গুরুত্বপূর্ণ।</p>
-      <div class="quote-author">
-        <div class="author-avatar">🧑‍🔬</div>
-        <div>
-          <div class="author-name">Albert Einstein</div>
-          <div class="author-title">পদার্থবিজ্ঞানী, নোবেলজয়ী</div>
-        </div>
-      </div>
+  <div class="quotes-header fade-up">
+    <div>
+      <div class="sec-label">অনুপ্রেরণা</div>
+      <h2 class="quotes-title">মহান বিজ্ঞানীদের <span>বাণী</span></h2>
     </div>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">Science is not only a disciple of reason but also obedience to the imagination.</p>
-      <p class="quote-text-bn">বিজ্ঞান শুধু যুক্তির নয়, কল্পনারও অনুগামী।</p>
-      <div class="quote-author">
-        <div class="author-avatar">👩‍🔬</div>
-        <div>
-          <div class="author-name">Marie Curie</div>
-          <div class="author-title">রসায়নবিদ, দুইবার নোবেলজয়ী</div>
-        </div>
-      </div>
+    <div class="quote-controls">
+      <button class="qbtn" onclick="moveQuote(-1)" aria-label="আগে">&#8592;</button>
+      <button class="qbtn" onclick="moveQuote(1)" aria-label="পরে">&#8594;</button>
     </div>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">If I have seen further, it is by standing on the shoulders of giants.</p>
-      <p class="quote-text-bn">আমি যদি দূরে দেখতে পাই, তা মহান মানুষদের কাঁধে দাঁড়িয়ে।</p>
-      <div class="quote-author">
-        <div class="author-avatar">🍎</div>
-        <div>
-          <div class="author-name">Isaac Newton</div>
-          <div class="author-title">গণিতবিদ ও পদার্থবিজ্ঞানী</div>
-        </div>
+  </div>
+  <div class="quotes-track-wrap">
+    <div class="quotes-track" id="quotesTrack">
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"Imagination is more important than knowledge. Knowledge is limited. Imagination encircles the world."</p>
+        <p class="quote-text-bn">জ্ঞানের চেয়ে কল্পনাশক্তি বেশি গুরুত্বপূর্ণ। জ্ঞানের সীমা আছে, কল্পনা পুরো পৃথিবীকে ঘিরে ধরে।</p>
+        <div class="quote-author"><div class="author-avatar">🧑‍🔬</div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী · নোবেলজয়ী ১৯২১</div></div></div>
       </div>
-    </div>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">Pure mathematics is the world's best game. It is more absorbing than chess.</p>
-      <p class="quote-text-bn">বিশুদ্ধ গণিত পৃথিবীর সেরা খেলা — দাবার চেয়েও আকর্ষণীয়।</p>
-      <div class="quote-author">
-        <div class="author-avatar">📊</div>
-        <div>
-          <div class="author-name">G. H. Hardy</div>
-          <div class="author-title">গণিতবিদ, কেমব্রিজ বিশ্ববিদ্যালয়</div>
-        </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"Nothing in life is to be feared, it is only to be understood. Now is the time to understand more, so that we may fear less."</p>
+        <p class="quote-text-bn">জীবনে ভয়ের কিছু নেই, শুধু বোঝার আছে। এখন সময় বেশি বোঝার — যাতে কম ভয় পাই।</p>
+        <div class="quote-author"><div class="author-avatar">👩‍🔬</div><div><div class="author-name">Marie Curie</div><div class="author-title">রসায়নবিদ · দুইবার নোবেলজয়ী</div></div></div>
       </div>
-    </div>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">The important thing is not to stop questioning.</p>
-      <p class="quote-text-bn">গুরুত্বপূর্ণ বিষয় হলো প্রশ্ন করা বন্ধ না করা।</p>
-      <div class="quote-author">
-        <div class="author-avatar">💡</div>
-        <div>
-          <div class="author-name">Albert Einstein</div>
-          <div class="author-title">পদার্থবিজ্ঞানী</div>
-        </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"If I have seen further, it is by standing on the shoulders of giants."</p>
+        <p class="quote-text-bn">আমি যদি দূরে দেখতে পাই, তা কেবল মহান মানুষদের কাঁধে দাঁড়িয়ে সম্ভব হয়েছে।</p>
+        <div class="quote-author"><div class="author-avatar">🍎</div><div><div class="author-name">Isaac Newton</div><div class="author-title">গণিতবিদ ও পদার্থবিজ্ঞানী</div></div></div>
       </div>
-    </div>
-    <div class="quote-card">
-      <div class="quote-mark">"</div>
-      <p class="quote-text">শিক্ষাই জাতির মেরুদণ্ড।</p>
-      <p class="quote-text-bn">Education is the backbone of a nation.</p>
-      <div class="quote-author">
-        <div class="author-avatar">🇧🇩</div>
-        <div>
-          <div class="author-name">বাংলাদেশের প্রবাদ</div>
-          <div class="author-title">বাংলা লোকজ্ঞান</div>
-        </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"The important thing is not to stop questioning. Curiosity has its own reason for existence."</p>
+        <p class="quote-text-bn">গুরুত্বপূর্ণ বিষয় হলো প্রশ্ন করা বন্ধ না করা। কৌতূহলের নিজস্ব কারণ আছে।</p>
+        <div class="quote-author"><div class="author-avatar">💡</div><div><div class="author-name">Albert Einstein</div><div class="author-title">পদার্থবিজ্ঞানী</div></div></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"Pure mathematics is, in its way, the poetry of logical ideas."</p>
+        <p class="quote-text-bn">বিশুদ্ধ গণিত হলো তার নিজস্ব জগতে যৌক্তিক ধারণার কবিতা।</p>
+        <div class="quote-author"><div class="author-avatar">📊</div><div><div class="author-name">Albert Einstein</div><div class="author-title">গণিত ও পদার্থবিজ্ঞান প্রেমী</div></div></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"Science knows no country, because knowledge belongs to humanity, and is the torch which illuminates the world."</p>
+        <p class="quote-text-bn">বিজ্ঞান কোনো দেশ চেনে না — জ্ঞান মানবজাতির সম্পদ, এটাই পৃথিবীকে আলোকিত করে।</p>
+        <div class="quote-author"><div class="author-avatar">🔬</div><div><div class="author-name">Louis Pasteur</div><div class="author-title">অণুজীববিজ্ঞানী · ফ্রান্স</div></div></div>
+      </div>
+      <div class="quote-card">
+        <div class="quote-accent"></div>
+        <p class="quote-text-en">"শিক্ষাই জাতির মেরুদণ্ড।"</p>
+        <p class="quote-text-bn">Education is the backbone of a nation. — একটি শিক্ষিত জাতিই পারে সত্যিকারের উন্নতি করতে।</p>
+        <div class="quote-author"><div class="author-avatar">🇧🇩</div><div><div class="author-name">বাংলাদেশের প্রবাদ</div><div class="author-title">বাংলা লোকজ্ঞান</div></div></div>
       </div>
     </div>
   </div>
+  <div class="quote-progress" id="quoteProg"></div>
 </div>
 
 <!-- CTA -->
 <div class="cta-section">
-  <h2 class="fade-in">আজই শুরু করো — সম্পূর্ণ বিনামূল্যে!</h2>
-  <p class="fade-in">হাজারো শিক্ষার্থীর সাথে যোগ দাও, AI টিউটরের সাহায্যে পরীক্ষায় ভালো ফল করো</p>
-  <a href="register.html" class="cta-btn fade-in">এখনই রেজিস্ট্রেশন করো →</a>
+  <h2 class="fade-up">আজই শুরু করো —<br>সম্পূর্ণ বিনামূল্যে!</h2>
+  <p class="fade-up">হাজারো শিক্ষার্থীর সাথে যোগ দাও, AI টিউটরের সাহায্যে পরীক্ষায় ভালো ফল করো</p>
+  <a href="register.html" class="cta-btn fade-up">এখনই রেজিস্ট্রেশন করো →</a>
 </div>
 
 <!-- FOOTER -->
 <footer>
-  <div class="logo">🎓 Edu<span>Tutor</span> BD</div>
-  <p>বাংলাদেশের শিক্ষার্থীদের জন্য তৈরি, বাংলায় পরিচালিত AI শিক্ষা প্ল্যাটফর্ম</p>
-  
-  <div class="footer-copy">© ২০২৫ EduTutor BD — সকল অধিকার সংরক্ষিত | Powered by Groq AI + Supabase</div>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-logo">🎓 Edu<span>Tutor</span> BD</div>
+      <p class="footer-desc">বাংলাদেশের শিক্ষার্থীদের জন্য তৈরি, বাংলায় পরিচালিত AI শিক্ষা প্ল্যাটফর্ম।</p>
+    </div>
+    <div class="footer-col">
+      <h4>লিংক</h4>
+      <a href="index.html">লগইন</a>
+      <a href="register.html">রেজিস্ট্রেশন</a>
+      <a href="home.html">ড্যাশবোর্ড</a>
+    </div>
+    <div class="footer-col">
+      <h4>বিষয়</h4>
+      <a href="register.html">পদার্থবিজ্ঞান</a>
+      <a href="register.html">রসায়ন</a>
+      <a href="register.html">গণিত</a>
+    </div>
+  </div>
+  <div class="footer-copy">© ২০২৫ EduTutor BD — সকল অধিকার সংরক্ষিত | Powered by Groq AI + Supabase + Vercel</div>
 </footer>
 
 <script>
-  let current = 0;
-  const slides = document.querySelectorAll('.slide');
-  const dots = document.querySelectorAll('.dot');
+// HERO SLIDER
+let cur=0;
+const slides=document.querySelectorAll('.slide');
+const dots=document.querySelectorAll('.dot');
+function goSlide(n){
+  slides[cur].classList.remove('active');
+  dots[cur].classList.remove('active');
+  cur=n;
+  slides[cur].classList.add('active');
+  dots[cur].classList.add('active');
+}
+setInterval(()=>goSlide((cur+1)%slides.length),3000);
 
-  function goSlide(n) {
-    slides[current].classList.remove('active');
-    dots[current].classList.remove('active');
-    current = n;
-    slides[current].classList.add('active');
-    dots[current].classList.add('active');
-  }
+// QUOTES CAROUSEL
+const quotes=document.querySelectorAll('.quote-card');
+const track=document.getElementById('quotesTrack');
+const prog=document.getElementById('quoteProg');
+let qCur=0;
+const cardW=340; // card width + margin
 
-  setInterval(() => {
-    goSlide((current + 1) % slides.length);
-  }, 3000);
+quotes.forEach((_,i)=>{
+  const d=document.createElement('div');
+  d.className='qprog-dot'+(i===0?' active':'');
+  d.onclick=()=>goQuote(i);
+  prog.appendChild(d);
+});
 
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach(e => {
-      if (e.isIntersecting) e.target.classList.add('visible');
-    });
-  }, { threshold: 0.15 });
+function goQuote(n){
+  qCur=n;
+  track.style.transform=`translateX(-${n*cardW}px)`;
+  document.querySelectorAll('.quote-card').forEach((c,i)=>c.classList.toggle('focused',i===n));
+  document.querySelectorAll('.qprog-dot').forEach((d,i)=>d.classList.toggle('active',i===n));
+}
 
-  document.querySelectorAll('.fade-in').forEach(el => observer.observe(el));
+function moveQuote(dir){
+  let next=(qCur+dir+quotes.length)%quotes.length;
+  goQuote(next);
+}
+
+// Auto-scroll quotes every 8 seconds
+setInterval(()=>moveQuote(1),8000);
+goQuote(0);
+
+// SCROLL ANIMATIONS
+const obs=new IntersectionObserver(entries=>{
+  entries.forEach(e=>{if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.12});
+document.querySelectorAll('.fade-up').forEach(el=>obs.observe(el));
 </script>
 </body>
 </html>
