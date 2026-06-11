@@ -47,7 +47,9 @@ BLOOM_NAMES = {1:"মনে রাখা",2:"বোঝা",3:"প্রয়ো
 
 # ── AI Helper ────────────────────────────────────────────────
 SYSTEM_PERSONA = """তুমি একজন অভিজ্ঞ বাংলাদেশী শিক্ষক। SSC ও HSC শিক্ষার্থীদের পদার্থবিজ্ঞান, রসায়ন এবং গণিত পড়াও।
-সবসময় বাংলায় কথা বলো। NCTB পাঠ্যক্রম অনুসরণ করো। শিক্ষার্থীকে উৎসাহিত করো।"""
+সবসময় বাংলায় কথা বলো। NCTB পাঠ্যক্রম অনুসরণ করো। শিক্ষার্থীকে উৎসাহিত করো।
+গুরুত্বপূর্ণ: কখনো Markdown (###, **, *, ---) ব্যবহার করবে না। শুধু সাধারণ বাংলা টেক্সট লিখবে।
+JSON চাইলে শুধু JSON দেবে, আর কিছু না।"""
 
 def _generate(prompt: str) -> str:
     client = get_groq()
@@ -59,10 +61,13 @@ def _generate(prompt: str) -> str:
                     {"role": "system", "content": SYSTEM_PERSONA},
                     {"role": "user",   "content": prompt}
                 ],
-                max_tokens=4800,
+                max_tokens=3000,
                 temperature=0.3,
             )
-            return res.choices[0].message.content.strip()
+            text = res.choices[0].message.content.strip()
+            # markdown heading/bold strip (JSON response এর বাইরে)
+            text = re.sub(r'^#+\s+', '', text, flags=re.MULTILINE)
+            return text
         except Exception as e:
             if '429' in str(e) and attempt < 2:
                 time.sleep(30)
@@ -71,8 +76,8 @@ def _generate(prompt: str) -> str:
 
 def _parse_json(text: str) -> Optional[dict]:
     # markdown code block strip
-    text = re.sub(r'```(?:json)?', '', text).strip()
-    # outermost { } খোঁজো
+    text = re.sub(r'''```(?:json)?'''  , '', text).strip()
+    text = text.replace('```', '').strip()
     start = text.find('{')
     end   = text.rfind('}')
     if start != -1 and end != -1 and end > start:
@@ -232,22 +237,25 @@ async def evaluate(req: AnswerRequest):
                     "weak_areas":[],"encouragement":"চেষ্টা করো!","is_correct":False}
 
         ctx = _get_nctb_context(req.subject, req.chapter_id)
-        prompt = f"""প্রশ্ন: {req.question}
+        prompt = f"""তুমি একজন বাংলাদেশী শিক্ষক। নিচের প্রশ্নের উত্তর মূল্যায়ন করো।
+
+প্রশ্ন: {req.question}
 শিক্ষার্থীর উত্তর: {req.student_answer}
 সর্বোচ্চ নম্বর: {req.marks}
-প্রত্যাশিত কীওয়ার্ড: {', '.join(req.expected_keywords)}
-NCTB তথ্য: {ctx}
 
-উত্তর মূল্যায়ন করো। শুধু JSON:
+নিয়ম:
+- শিক্ষার্থীর উত্তরে মূল ধারণা সঠিক থাকলে পূর্ণ নম্বর দাও
+- আংশিক সঠিক হলে আংশিক নম্বর দাও
+- সম্পূর্ণ ভুল হলেই শুধু 0 দাও
+- কঠোর হয়ো না, মূল বিষয় বুঝলেই নম্বর দাও
+
+শুধু এই JSON দাও, অন্য কিছু না:
 {{
-  "score": 0,
-  "max_score": {req.marks},
-  "percentage": 0,
-  "feedback_bengali": "বিস্তারিত ফিডব্যাক বাংলায়",
-  "correct_answer": "সঠিক উত্তর",
-  "weak_areas": ["দুর্বল দিক"],
-  "encouragement": "উৎসাহমূলক বার্তা",
-  "is_correct": false
+  "score": <{req.marks} এর মধ্যে ন্যায্য নম্বর, integer>,
+  "feedback_bengali": "<কী ভালো ছিল এবং কী আরও বলা যেত, ২-৩ বাক্যে>",
+  "correct_answer": "<এই প্রশ্নের সম্পূর্ণ সঠিক উত্তর বাংলায়, ২-৩ বাক্যে>",
+  "weak_areas": ["<যদি কিছু মিস করে থাকে>"],
+  "encouragement": "<উৎসাহমূলক ছোট বার্তা>"
 }}"""
         text   = _generate(prompt)
         result = _parse_json(text) or {}
@@ -395,8 +403,22 @@ NCTB প্রসঙ্গ: {ctx}
                     "correct_answer": q["correct_answer"].upper().strip(),
                     "explanation":    q.get("explanation", "")
                 })
+        # আংশিক হলেও return করো, একদম খালি হলে error
+        if not clean and questions:
+            # options check ছাড়া যা পেয়েছি নাও
+            for q in questions[:req.count]:
+                if q.get("question"):
+                    opts = q.get("options", ["ক", "খ", "গ", "ঘ"])
+                    if len(opts) < 4:
+                        opts = (opts + ["", "", "", ""])[:4]
+                    clean.append({
+                        "question":       q["question"],
+                        "options":        opts,
+                        "correct_answer": q.get("correct_answer", "A").upper().strip(),
+                        "explanation":    q.get("explanation", "")
+                    })
         if not clean:
-            raise HTTPException(status_code=500, detail="MCQ তৈরি করতে পারিনি, আবার চেষ্টা করো।")
+            raise HTTPException(status_code=500, detail="MCQ তৈরি করতে পারিনি, আবার চেষ্টা করো.")
         return {"success": True, "questions": clean, "count": len(clean)}
     except HTTPException:
         raise
