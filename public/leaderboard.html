@@ -7,81 +7,212 @@
   <link rel="stylesheet" href="css/style.css">
   <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&family=Poppins:wght@600;700;800&display=swap" rel="stylesheet">
   <style>
-    .lb-header{
-      background:linear-gradient(135deg,#085041,#1D9E75);
-      border-radius:16px;padding:28px;text-align:center;
-      color:white;margin-bottom:24px;
+    body.main-page{background:#f4fdf9;}
+
+    /* HERO HEADER */
+    .lb-hero{
+      background:linear-gradient(135deg,#071510 0%,#085041 50%,#1D9E75 100%);
+      border-radius:20px;padding:40px 28px 80px;
+      text-align:center;color:white;
+      position:relative;overflow:hidden;margin-bottom:0;
     }
-    .lb-header h2{font-family:'Poppins',sans-serif;font-size:26px;font-weight:800;margin-bottom:6px;}
-    .lb-header p{opacity:.85;font-size:14px;}
-    .lb-podium{display:flex;justify-content:center;align-items:flex-end;gap:12px;margin-bottom:28px;}
-    .podium-item{text-align:center;width:100px;}
+    .lb-hero::before{
+      content:'';position:absolute;inset:0;
+      background:
+        radial-gradient(ellipse 60% 60% at 20% 40%,rgba(255,215,0,0.12) 0%,transparent 65%),
+        radial-gradient(ellipse 50% 50% at 80% 60%,rgba(29,158,117,0.2) 0%,transparent 65%);
+    }
+    .lb-hero-inner{position:relative;z-index:2;}
+    .lb-trophy{font-size:52px;margin-bottom:10px;display:block;animation:float 3s ease-in-out infinite;}
+    @keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(-8px);}}
+    .lb-hero h2{
+      font-family:'Poppins',sans-serif;font-size:30px;font-weight:800;
+      margin-bottom:8px;
+      background:linear-gradient(135deg,#fff 40%,#FFD700 100%);
+      -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+    }
+    .lb-hero p{font-size:14px;opacity:.75;}
+    .lb-hero-stats{
+      display:flex;justify-content:center;gap:24px;margin-top:20px;
+    }
+    .lb-stat{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);
+      border-radius:12px;padding:10px 20px;text-align:center;}
+    .lb-stat-num{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:#FFD700;}
+    .lb-stat-label{font-size:11px;opacity:.7;margin-top:2px;}
+
+    /* PODIUM */
+    .podium-wrap{
+      background:white;border-radius:0 0 20px 20px;
+      padding:0 20px 28px;margin-bottom:20px;
+      box-shadow:0 8px 24px rgba(29,158,117,0.1);
+      position:relative;
+    }
+    .podium-stage{
+      display:flex;justify-content:center;align-items:flex-end;
+      gap:8px;padding-top:0;
+    }
+    .podium-item{text-align:center;position:relative;}
+    .podium-item.rank-1{z-index:2;}
+
+    .podium-crown{font-size:20px;margin-bottom:4px;display:block;}
     .podium-avatar{
-      width:56px;height:56px;border-radius:50%;
+      border-radius:50%;
       display:flex;align-items:center;justify-content:center;
-      font-size:22px;font-weight:800;margin:0 auto 8px;
+      font-weight:800;margin:0 auto 8px;
       font-family:'Poppins',sans-serif;
+      border:3px solid white;
+      box-shadow:0 4px 12px rgba(0,0,0,0.15);
     }
-    .podium-item.rank-1 .podium-avatar{background:#FFD700;color:#7a5800;width:68px;height:68px;font-size:26px;}
-    .podium-item.rank-2 .podium-avatar{background:#C0C0C0;color:#555;}
-    .podium-item.rank-3 .podium-avatar{background:#CD7F32;color:#4a2900;}
-    .podium-name{font-size:13px;font-weight:700;color:#0d1f1a;margin-bottom:4px;}
-    .podium-score{font-size:12px;color:#666;}
-    .podium-block{border-radius:8px 8px 0 0;width:100%;}
-    .podium-item.rank-1 .podium-block{background:#FFD700;height:60px;}
-    .podium-item.rank-2 .podium-block{background:#C0C0C0;height:44px;}
-    .podium-item.rank-3 .podium-block{background:#CD7F32;height:32px;}
-    .podium-rank{font-family:'Poppins',sans-serif;font-size:20px;font-weight:800;color:white;display:flex;align-items:center;justify-content:center;height:100%;}
-    .lb-list{display:flex;flex-direction:column;gap:10px;}
+    .podium-item.rank-1 .podium-avatar{
+      width:72px;height:72px;font-size:28px;
+      background:linear-gradient(135deg,#FFD700,#FFA500);color:#7a5800;
+      border-color:#FFD700;
+      box-shadow:0 0 0 4px rgba(255,215,0,0.3),0 8px 24px rgba(255,165,0,0.4);
+    }
+    .podium-item.rank-2 .podium-avatar{
+      width:58px;height:58px;font-size:22px;
+      background:linear-gradient(135deg,#C0C0C0,#a8a8a8);color:#444;
+      border-color:#C0C0C0;
+    }
+    .podium-item.rank-3 .podium-avatar{
+      width:52px;height:52px;font-size:20px;
+      background:linear-gradient(135deg,#CD7F32,#a0622a);color:#fff;
+      border-color:#CD7F32;
+    }
+    .podium-name{
+      font-size:13px;font-weight:700;color:#0d1f1a;
+      margin-bottom:3px;max-width:90px;
+      overflow:hidden;text-overflow:ellipsis;white-space:nowrap;
+    }
+    .podium-score{font-size:11px;color:#666;margin-bottom:8px;}
+    .podium-block{
+      border-radius:10px 10px 0 0;
+      display:flex;flex-direction:column;
+      align-items:center;justify-content:flex-start;
+      padding-top:10px;
+    }
+    .podium-item.rank-1 .podium-block{
+      background:linear-gradient(180deg,#FFD700,#e6c200);
+      width:100px;height:80px;
+    }
+    .podium-item.rank-2 .podium-block{
+      background:linear-gradient(180deg,#C0C0C0,#a8a8a8);
+      width:88px;height:56px;
+    }
+    .podium-item.rank-3 .podium-block{
+      background:linear-gradient(180deg,#CD7F32,#a0622a);
+      width:80px;height:40px;
+    }
+    .podium-rank-num{
+      font-family:'Poppins',sans-serif;font-size:22px;font-weight:800;color:white;
+      text-shadow:0 2px 4px rgba(0,0,0,0.2);
+    }
+
+    /* LIST */
+    .lb-section-title{
+      font-family:'Poppins',sans-serif;font-size:15px;font-weight:700;
+      color:#0d1f1a;margin-bottom:12px;
+      display:flex;align-items:center;gap:8px;
+    }
+    .lb-list{display:flex;flex-direction:column;gap:8px;}
     .lb-item{
-      background:white;border:1.5px solid rgba(29,158,117,0.12);
-      border-radius:12px;padding:14px 18px;
+      background:white;
+      border-radius:14px;padding:14px 18px;
       display:flex;align-items:center;gap:14px;
-      transition:transform .2s;
+      border:1.5px solid rgba(29,158,117,0.1);
+      transition:all .22s;position:relative;overflow:hidden;
     }
-    .lb-item:hover{transform:translateX(4px);}
-    .lb-item.me{border-color:rgba(29,158,117,0.5);background:#E1F5EE;}
+    .lb-item::before{
+      content:'';position:absolute;left:0;top:0;bottom:0;width:3px;
+      background:var(--accent,transparent);border-radius:2px 0 0 2px;
+    }
+    .lb-item:hover{transform:translateX(4px);border-color:rgba(29,158,117,0.3);box-shadow:0 4px 16px rgba(29,158,117,0.1);}
+    .lb-item.me{
+      background:linear-gradient(135deg,#E1F5EE,#f0fdf8);
+      border-color:rgba(29,158,117,0.4);
+      --accent:linear-gradient(180deg,#1D9E75,#EF9F27);
+    }
+    .lb-item.top4{--accent:linear-gradient(180deg,#EF9F27,#FFD700);}
+
+    .lb-rank-wrap{min-width:36px;text-align:center;}
     .lb-rank{
-      font-family:'Poppins',sans-serif;font-size:16px;font-weight:800;
-      color:#888;min-width:28px;text-align:center;
+      font-family:'Poppins',sans-serif;font-size:15px;font-weight:800;color:#aaa;
     }
-    .lb-rank.top3{color:#EF9F27;}
+    .lb-rank.gold{color:#EF9F27;}
     .lb-avatar{
-      width:40px;height:40px;border-radius:50%;
+      width:42px;height:42px;border-radius:50%;
       background:linear-gradient(135deg,#1D9E75,#085041);
       color:white;font-weight:800;font-size:16px;
-      display:flex;align-items:center;justify-content:center;
+      display:flex;align-items:center;justify-content:center;flex-shrink:0;
+      font-family:'Poppins',sans-serif;
+    }
+    .lb-info{flex:1;min-width:0;}
+    .lb-name{font-weight:700;font-size:15px;color:#0d1f1a;display:flex;align-items:center;gap:6px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+    .lb-meta{font-size:12px;color:#888;margin-top:2px;}
+    .lb-right{text-align:right;flex-shrink:0;}
+    .lb-points{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:#1D9E75;}
+    .lb-pts-label{font-size:11px;color:#bbb;}
+
+    .me-badge{
+      background:linear-gradient(135deg,#1D9E75,#085041);color:white;
+      font-size:10px;font-weight:700;padding:2px 8px;border-radius:10px;
       flex-shrink:0;
     }
-    .lb-info{flex:1;}
-    .lb-name{font-weight:700;font-size:15px;color:#0d1f1a;}
-    .lb-meta{font-size:12px;color:#888;margin-top:2px;}
-    .lb-score{text-align:right;}
-    .lb-points{font-family:'Poppins',sans-serif;font-size:18px;font-weight:800;color:#1D9E75;}
-    .lb-pts-label{font-size:11px;color:#aaa;}
-    .me-badge{
-      background:#1D9E75;color:white;
-      font-size:10px;font-weight:700;
-      padding:2px 8px;border-radius:10px;margin-left:6px;
+    .lb-divider{
+      text-align:center;padding:8px;color:#ccc;font-size:14px;
+      letter-spacing:4px;
     }
+
+    /* AVATAR colors by rank */
+    .av-1{background:linear-gradient(135deg,#FFD700,#FFA500)!important;color:#7a5800!important;}
+    .av-2{background:linear-gradient(135deg,#b0b0b0,#888)!important;color:white!important;}
+    .av-3{background:linear-gradient(135deg,#CD7F32,#a0622a)!important;color:white!important;}
+    .av-4{background:linear-gradient(135deg,#378ADD,#185FA5)!important;}
+    .av-5{background:linear-gradient(135deg,#7F77DD,#534AB7)!important;}
   </style>
 </head>
 <body class="main-page">
   <nav class="navbar">
-    <div class="nav-logo"><a href="home.html">🎓 EduTutor BD</a></div>
+    <div class="nav-logo"><a href="home.html" style="text-decoration:none;color:inherit;">🎓 EduTutor BD</a></div>
     <div class="nav-user"><button class="btn btn-sm" onclick="logout()">লগআউট</button></div>
   </nav>
   <div class="main-container">
-    <div class="lb-header">
-      <h2>🏆 Leaderboard</h2>
-      <p>সেরা শিক্ষার্থীদের তালিকা — তুমি কোথায় আছো?</p>
+
+    <!-- HERO -->
+    <div class="lb-hero">
+      <div class="lb-hero-inner">
+        <span class="lb-trophy">🏆</span>
+        <h2>Leaderboard</h2>
+        <p>সেরা শিক্ষার্থীদের তালিকা — তুমি কোথায় আছো?</p>
+        <div class="lb-hero-stats">
+          <div class="lb-stat">
+            <div class="lb-stat-num" id="hero-students">—</div>
+            <div class="lb-stat-label">মোট শিক্ষার্থী</div>
+          </div>
+          <div class="lb-stat">
+            <div class="lb-stat-num" id="hero-sessions">—</div>
+            <div class="lb-stat-label">মোট সেশন</div>
+          </div>
+          <div class="lb-stat">
+            <div class="lb-stat-num" id="hero-avg">—</div>
+            <div class="lb-stat-label">গড় স্কোর</div>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div id="loading-lb" class="loading"><div class="spinner"></div><p>লোড হচ্ছে...</p></div>
-    <div id="lb-content" style="display:none">
-      <div class="lb-podium" id="lb-podium"></div>
-      <div class="lb-list" id="lb-list"></div>
+    <!-- PODIUM -->
+    <div class="podium-wrap">
+      <div id="loading-lb" class="loading" style="padding:40px 0;"><div class="spinner"></div><p>লোড হচ্ছে...</p></div>
+      <div id="lb-content" style="display:none">
+        <div class="podium-stage" id="lb-podium"></div>
+        <div style="margin-top:28px;">
+          <div class="lb-section-title">📋 সম্পূর্ণ তালিকা</div>
+          <div class="lb-list" id="lb-list"></div>
+        </div>
+      </div>
     </div>
+
   </div>
   <script src="js/api.js"></script>
   <script src="js/leaderboard.js"></script>
