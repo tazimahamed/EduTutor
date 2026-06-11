@@ -62,7 +62,7 @@ async function sendMsg() {
 
   try {
     const grade = localStorage.getItem('user_grade') || 'SSC';
-    const data  = await apiCall('/chat', { message: text, subject: currentSubject, grade });
+    const data  = await apiCall('/chat', { message: text, subject: currentSubject, grade }, 'POST');
     removeTyping();
     addMsg(data.reply, 'ai');
   } catch(e) {
