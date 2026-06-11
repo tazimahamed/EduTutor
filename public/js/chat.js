@@ -67,7 +67,10 @@ async function sendMsg() {
     addMsg(data.reply, 'ai');
   } catch(e) {
     removeTyping();
-    addMsg('দুঃখিত, উত্তর দিতে পারিনি। আবার চেষ্টা করো।', 'ai');
+    const msg = e.message && e.message.includes('429')
+      ? '⏳ AI একটু ব্যস্ত আছে! কিছুক্ষণ পর আবার চেষ্টা করো। (দৈনিক limit শেষ)'
+      : 'দুঃখিত, উত্তর দিতে পারিনি। আবার চেষ্টা করো।';
+    addMsg(msg, 'ai');
   }
   btn.disabled = false;
   input.focus();
