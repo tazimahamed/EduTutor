@@ -70,11 +70,10 @@ def _generate(prompt: str) -> str:
                 raise e
 
 def _parse_json(text: str) -> Optional[dict]:
-    text = re.sub(r'```[\w]*', '', text).strip()
-    text = text.replace('`', '')
-    m = re.search(r'\{.*\}', text, re.DOTALL)
-    if m:
-        try: return json.loads(m.group())
+    start = text.find('{')
+    end = text.rfind('}')
+    if start != -1 and end != -1:
+        try: return json.loads(text[start:end+1])
         except: pass
     return None
 
